@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Sandbox | Ejercicios</title>
+  <title>Sandbox | Profesor</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -70,10 +70,10 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="../perfil" class="btn btn-default btn-flat">Perfil</a>
+                  <a href="../../perfil" class="btn btn-default btn-flat">Perfil</a>
                 </div>
                 <div class="pull-right">
-                  <a href="../../../../" class="btn btn-default btn-flat">Cerrar sesión</a>
+                  <a href="../../../../../" class="btn btn-default btn-flat">Cerrar sesión</a>
                 </div>
               </li>
             </ul>
@@ -102,10 +102,10 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">Opciones</li>
-        <li><a href="../"><i class="fa fa-tasks"></i> <span>Resumen</span></a></li>
-        <li class="active"><a href="#"><i class="fa fa-book"></i> <span>Ejercicios</span></a></li>
-        <li><a href="../mis_ejercicios"><i class="fa fa-folder-open"></i> <span>Mis ejercicios</span></a></li>
-        <li><a href="../proyectos"><i class="fa fa-cogs"></i> <span>Proyectos</span></a></li>
+        <li><a href="../../"><i class="fa fa-tasks"></i> <span>Resumen</span></a></li>
+        <li><a href="../../ejercicios"><i class="fa fa-book"></i> <span>Ejercicios</span></a></li>
+        <li class="active"><a href="../../mis_ejercicios"><i class="fa fa-folder-open"></i> <span>Mis ejercicios</span></a></li>
+        <li><a href="../../proyectos"><i class="fa fa-cogs"></i> <span>Proyectos</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -117,47 +117,117 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Ejercicios ingresados
-      </h1>
+      <h1>Crear ejercicio</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Ejercicios</li>
+        <li>Mis Ejercicios</li>
+        <li class="active">Crear</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="row" id="div-crear-ejercicio">
-        <div class="col-xs-12" style="padding-bottom: 10px">
-          <a class="btn btn-success btn-lg" href="/ejercicios/crear"><i class="fa fa-plus"></i> Crear Ejercicio</a>
-        </div>
-      </div>
       <div class="row">
         <div class="col-xs-12">
-            <div class="box box-success">
-              <div class="box-header">
-                <h3 class="box-title">Ejercicios disponibles</h3>
-              </div>
-              <!-- /.box-header -->
-              <div class="box-body table-responsive">
-                    <!-- <div class="container"> -->
-                      <table id="example" class="display table table-hover" cellspacing="0" width="100%">
-                        <thead>
-                          <tr>
-                            <th>Título</th>
-                            <th>Autor</th>
-                            <th>Dificultad</th>
-                          </tr>
-                        </thead>
-                        <tbody id="lista-ejercicios">
-                        </tbody>
-                      </table>
-                    <!-- </div> -->
+          <div class="box box-primary">
+            <!-- form start -->
+            <form role="form" id="form-crear">
+              <div class="box-body">
+                <div class="form-group" id="titulo-group">
+                  <label for="titulo">Título</label>
+                  <input type="text" class="form-control" id="titulo" placeholder="Título del ejercicio">
+                  <p class="hidden text-danger" id="msg-titulo">Título vacío</p>
+                </div>
+                <div class="form-group" id="descripcion-group">
+                  <label for="descripcion">Descripción</label>
+                  <textarea class="form-control" rows="3" id="descripcion" placeholder="Descripción del ejercicio"></textarea>
+                  <p class="hidden text-danger" id="msg-descripcion">Descripción vacía</p>
+                </div>
+                <div class="form-group" id="entrada-group">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <p>Ingrese los datos dependiendo del orden de los argumentos</p>
+                      <label for="entrada">Datos de entrada</label>
+                      <div class="row">
+                        <div class="col-sm-10">
+                          <input type="text" name="entrada" id="entrada" placeholder="Valor" class="col-xs-12 form-control">
+                        </div>
+                        <div class="col-sm-2">
+                          <button type="button" class="btn btn-primary" id="agregar-entrada">Agregar</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-5 col-sm-push-1">
+                        <div class="col-sm-12" id="entrada-agregados">
+                          <label>Datos entrada agregados</label>
+                        </div>
+                    </div>
+                  </div>  
+                  <p class="hidden text-danger" id="msg-entrada">No se han agregado entradas</p>
+                </div>
+
+                <div class="form-group" id="salida-group">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <label for="salida">Texto de salida</label>
+                      <div class="row">
+                        <div class="col-sm-10">
+                          <textarea class="form-control" rows="3" id="salida" placeholder="Texto de salida"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>  
+                  <p class="hidden text-danger" id="msg-salida">No se ha agregado el texto de salida</p>
+                </div>
+
+                <div class="form-group" id="etiquetas-group">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <label for="titulo">Etiquetas</label>
+                      <div class="row">
+                        <div class="col-sm-10">
+                          <select class="form-control" id="etiquetas">
+                            {{#each etiquetas}}
+                              <option value="{{_id}}">{{nombre}}</option>
+                            {{/each}}
+                          </select>
+                        </div>
+                        <div class="col-sm-2">
+                          <button type="button" class="btn btn-primary" id="agregar-etiqueta">Agregar</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-5 col-sm-push-1">
+                        <div class="col-sm-12" id="etiquetas-agregadas">
+                          <label>Etiquetas Agregadas</label>
+                        </div>
+                    </div>
+                  </div>
+                  
+                  
+                  <p class="hidden text-danger" id="msg-etiquetas">No se han agregado etiquetas</p>
+                </div>
+                <div class="form-group" id="dificultad-group">
+                  <label for="dificultad">Dificultad</label>
+                  <div class="row">
+                    <div class="col-sm-5">
+                        <select class="form-control" id="dificultad">
+                          {{#each dificultades}}
+                              <option value="{{_id}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                  </div>
+                  <p class="hidden text-danger" id="msg-dificultad">Dificultad vacía</p>
+                </div>
               </div>
               <!-- /.box-body -->
-            </div>
-            <!-- /.box -->
+
+              <div class="box-footer text-center">
+                <button type="submit" class="btn btn-primary" id="crear-ejercicio">Crear</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </section>
@@ -212,10 +282,7 @@
 <!-- DataTable -->
 <script type="text/javascript" language="javascript" src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" language="javascript" src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="/js/sandbox/ejercicios/ejercicios_crear.js"></script>
 
-<script src="/js/sandbox/ejercicios/ejercicios_index.js"></script>
-
-<!-- <script src="../../../../js/sandbox_profesor_ejercicios.js"></script>
-<script src="../../../../js/sandbox_profesor_cargar_datos_no_principal.js"></script> -->
 </body>
 </html>

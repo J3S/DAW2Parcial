@@ -1,6 +1,6 @@
 $(document).ready(function() {
     var listaEjercicios = $("#lista-ejercicios");
-    $.getJSON("http://localhost:3000/ejercicios/todos", function(data) {
+    $.getJSON("/ejercicios/todos", function(data) {
         var status = data.status;
         var contenido = data.contenido;
         console.log("Status: " + status + " ---Contenido: " + contenido);

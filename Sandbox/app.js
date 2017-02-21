@@ -12,6 +12,9 @@ var ejercicios = require('./routes/ejercicios');
 var app = express();
 
 var db = require('./models/db');
+var ejercicio = require('./models/ejercicio');
+var dificultad = require('./models/dificultads');
+var etiqueta = require('./models/etiqueta');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
