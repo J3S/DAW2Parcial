@@ -62,7 +62,8 @@ $(function() {
         $(this).parent().remove();
     });
 
-    $('#form-crear').submit(function () {
+    $('#crear-ejercicio').click(function (event) {
+        event.preventDefault();
         var titulo = $("#titulo").val();
         var descripcion = $("#descripcion").val();
         var divEtiquetasAgregadas = $("#etiquetas-agregadas");
@@ -151,17 +152,16 @@ $(function() {
                 type: "POST",
                 cache: false,
                 data: datos_enviados,
-                dataType: "application/json",
-                success: function(data) {
-                    console.log("Exito")
-                    console.log(JSON.stringify(data));
-                },
-                error: function (jqXHR, status, error) {
-                    console.log(status);
-                }
-            });
+                dataType: "json",
+                success: function(data){
+                    alert('success');
+                    console.log(data);
+                  },
+                  error: function( XMLHttpRequest, textStatus, errorThrown){
+                    alert('failure');
+                  }
+              });
         }
-        return false;
     });
 
 });

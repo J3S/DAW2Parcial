@@ -12,7 +12,7 @@ var ejercicios = require('./routes/ejercicios');
 var app = express();
 
 var db = require('./models/db');
-var ejercicio = require('./models/ejercicio');
+var ejercicio = require('./models/ejercicios');
 var dificultad = require('./models/dificultads');
 var etiqueta = require('./models/etiqueta');
 

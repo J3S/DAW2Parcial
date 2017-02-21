@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 
-var Ejercicio = require('../models/ejercicio');
+var Ejercicio = require('../models/ejercicios');
 var Dificultad = require('../models/dificultads');
 var Etiqueta = require('../models/etiqueta');
 
@@ -54,8 +54,28 @@ router.get('/crear', function(req, res, next) {
 });
 
 router.post('/crear', function(req, res, next) {
-    console.log(req.body);
-    res.json({msg: 'Exito'});
+    Dificultad.findById(req.body.dificultad, function(err, dificultad) {
+        console.log(dificultad);
+        if(err || typeof dificultad === undefined){
+            return res.send(JSON.stringify({ estado: -1, contenido: "Error al crear el ejercicio" }));
+        }
+        if (req.body.titulo === "" || req.body.descripcion === "" || req.body.salida === "" || JSON.parse(req.body.etiquetas).length === 0)
+            return res.send(JSON.stringify({ estado: -1, contenido: "Error al crear el ejercicio" }));
+
+        var ejercicio = new Ejercicio();
+        ejercicio.titulo = req.body.titulo;
+        ejercicio.descripcion = req.body.descripcion;
+        ejercicio.datosEntrada = JSON.parse(req.body.entradas);
+        ejercicio.datosSalida = req.body.salida;
+        ejercicio.etiquetas = JSON.parse(req.body.etiquetas);
+        ejercicio.dificultad = dificultad;
+
+        ejercicio.save(function(err) {
+            if(err)
+                return res.send(JSON.stringify({ estado: -1, contenido: "Error al crear el ejercicio"}));
+            return res.send(JSON.stringify({ estado: 0, contenido: "Ejercicio creado exitosamente"}));
+        })
+    });
 });
 
 module.exports = router;

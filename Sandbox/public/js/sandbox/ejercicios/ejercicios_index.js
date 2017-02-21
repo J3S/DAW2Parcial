@@ -3,7 +3,6 @@ $(document).ready(function() {
     $.getJSON("/ejercicios/todos", function(data) {
         var status = data.status;
         var contenido = data.contenido;
-        console.log("Status: " + status + " ---Contenido: " + contenido);
         $.each(contenido, function(key, value){
             var dificultad = value.dificultad;
             var titulo = value.titulo;
