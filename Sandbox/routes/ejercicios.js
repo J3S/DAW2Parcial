@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 var Ejercicio = require('../models/ejercicios');
 var Dificultad = require('../models/dificultads');
-var Etiqueta = require('../models/etiqueta');
+var Etiqueta = require('../models/etiquetas');
 
 const STATUS_ERROR = -1;
 const STATUS_SUCCESS = 0;
@@ -55,12 +55,11 @@ router.get('/crear', function(req, res, next) {
 
 router.post('/crear', function(req, res, next) {
     Dificultad.findById(req.body.dificultad, function(err, dificultad) {
-        console.log(dificultad);
         if(err || typeof dificultad === undefined){
-            return res.send(JSON.stringify({ estado: -1, contenido: "Error al crear el ejercicio" }));
+            return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al crear el ejercicio - La dificultad seleccionada no existe" }));
         }
         if (req.body.titulo === "" || req.body.descripcion === "" || req.body.salida === "" || JSON.parse(req.body.etiquetas).length === 0)
-            return res.send(JSON.stringify({ estado: -1, contenido: "Error al crear el ejercicio" }));
+            return res.send(JSON.stringify({ estadoError: -1, contenidoMSG: "Error al crear el ejercicio - Uno o varios campos están vacíos" }));
 
         var ejercicio = new Ejercicio();
         ejercicio.titulo = req.body.titulo;
@@ -72,8 +71,8 @@ router.post('/crear', function(req, res, next) {
 
         ejercicio.save(function(err) {
             if(err)
-                return res.send(JSON.stringify({ estado: -1, contenido: "Error al crear el ejercicio"}));
-            return res.send(JSON.stringify({ estado: 0, contenido: "Ejercicio creado exitosamente"}));
+                return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al crear el ejercicio - Problemas con la base de datos"}));
+            return res.send(JSON.stringify({ estadoError: false, contenidoMSG: "Ejercicio creado exitosamente"}));
         })
     });
 });

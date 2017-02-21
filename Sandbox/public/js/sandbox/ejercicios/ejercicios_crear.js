@@ -2,20 +2,19 @@ $(function() {
     var contador_entrada = 0;
     var contador_salida = 0;
     var contador_etiqueta = 0;
+    $("mensaje-operacion").hide();
 
     function agregarDatos(nameElement, nameDivContainer, className) {
         var contador;
+        var data = $(nameElement).val();
         if (className === "entrada") {
             contador_entrada += 1;
             contador = contador_entrada;
-        } else if (className === "salida") {
-            contador_salida += 1;
-            contador = contador_salida;
         } else {
             contador_etiqueta += 1;
             contador = contador_etiqueta;
+            data = $(nameElement + " :selected").text();
         }
-        var data = $(nameElement).val();
         var divAgregados = $(nameDivContainer);
         if (data !== "" && !$(nameElement).val() === false) {
             if (divAgregados.children().length === 1) {
@@ -69,7 +68,7 @@ $(function() {
         var divEtiquetasAgregadas = $("#etiquetas-agregadas");
         var divEntradasAgregadas = $("#entrada-agregados");
         var salida = $("#salida").val();
-        var dificultad = $("#dificultad").val();
+        var dificultad = $("#dificultad :selected").text();
         var camposLlenos = 0;
         var campoTitulo, campoDescripcion, campoEntrada, campoSalida, campoEtiqueta, campoDificultad;
 
@@ -125,7 +124,7 @@ $(function() {
         }
 
         camposLlenos = campoTitulo + campoDescripcion + campoEntrada + campoSalida + campoEtiqueta + campoDificultad;
-
+        dificultad = $("#dificultad").val();
         if ((camposLlenos === 5 && divEntradasAgregadas.children().length === 1) || camposLlenos  > 5) {
             var jsonEntrada = [];
             $('.entrada').each(function(index, object) {
@@ -154,11 +153,23 @@ $(function() {
                 data: datos_enviados,
                 dataType: "json",
                 success: function(data){
-                    alert('success');
-                    console.log(data);
+                    if (data.estadoError) {
+                        $("#alert").html('<div class="alert alert-danger alert-dismissible fade in" role="alert" id="mensaje-operacion"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + data.contenidoMSG + '</div>');
+                        $("#alert").show();
+
+                    } else {
+                        $("#alert").html('<div class="alert alert-success alert-dismissible fade in" role="alert" id="mensaje-operacion"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + data.contenidoMSG + '</div>');
+                        $("#alert").show();
+                        $(':input','#form-crear')
+                          .removeAttr('checked')
+                          .removeAttr('selected')
+                          .not(':button, :submit, :reset, :hidden, :radio, :checkbox')
+                          .val('');
+                        $('#entrada-agregados').children().slice(1).remove();
+                        $('#etiquetas-agregadas').children().slice(1).remove();
+                    }
                   },
                   error: function( XMLHttpRequest, textStatus, errorThrown){
-                    alert('failure');
                   }
               });
         }

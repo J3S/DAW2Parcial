@@ -14,7 +14,7 @@ var app = express();
 var db = require('./models/db');
 var ejercicio = require('./models/ejercicios');
 var dificultad = require('./models/dificultads');
-var etiqueta = require('./models/etiqueta');
+var etiqueta = require('./models/etiquetas');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
