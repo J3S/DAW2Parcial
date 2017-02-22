@@ -116,4 +116,15 @@ router.put('/editar/:id', function(req, res, next) {
     });
 });
 
+router.delete('/borrar/:id', function(req, res, next) {
+    console.log(req.params.id);
+    Ejercicio.remove({
+        _id: req.params.id
+    }, function(err, ejercicio) {
+        if(err)
+            return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al borrar el ejercicio - El ejercicio no existe" }));
+        return res.send(JSON.stringify({ estadoError: false, contenidoMSG: "Ejercicio borrado exitosamente"}));
+    });
+});
+
 module.exports = router;
