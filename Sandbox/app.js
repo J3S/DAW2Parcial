@@ -19,6 +19,16 @@ var etiqueta = require('./models/etiquetas');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+var hbs = require('hbs');
+hbs.registerHelper('if_eq', function(a, b, opts) {
+        if(a == b)
+            return opts.fn(this);
+        else
+            return opts.inverse(this);
+}); 
+hbs.registerHelper('json', function(context) {
+    return JSON.stringify(context);
+});
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -28,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
-app.use('/node_modules',  express.static(__dirname + '/node_modules/jquery-slimscroll'));
+app.use('/node_modules/slimscroll',  express.static(__dirname + '/node_modules/jquery-slimscroll'));
 
 app.use('/', index);
 app.use('/users', users);

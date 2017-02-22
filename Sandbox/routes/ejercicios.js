@@ -77,4 +77,20 @@ router.post('/crear', function(req, res, next) {
     });
 });
 
+router.get('/editar/:id', function(req, res, next) {
+    Ejercicio.findById(req.params.id, function(err, ejercicio) {
+        if(err)
+            return res.render('ejercicios/editar', {estadoBusqueda: false, contenido: "", dificultades: "", etiquetas: ""});
+        Dificultad.find(function(err, dificultades_enviar) {
+            if (err)
+                return res.render('ejercicios/editar', {estadoBusqueda: false, contenido: "", dificultades: "", etiquetas: ""});
+            Etiqueta.find(function(err, etiquetas_enviar) {
+                if(err)
+                    return res.render('ejercicios/editar', {estadoBusqueda: false, contenido: "", dificultades: "", etiquetas: ""});
+                return res.render('ejercicios/editar', {estadoBusqueda: true, contenido: ejercicio, dificultades: dificultades_enviar, etiquetas: etiquetas_enviar});
+            });
+        });
+    });
+});
+
 module.exports = router;
