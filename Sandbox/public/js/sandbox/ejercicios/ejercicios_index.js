@@ -40,11 +40,12 @@ $(document).ready(function() {
 
     $('body').on("click", "a.borrar", function() {
         var url = $(this).data("url");
-        $("#borrar-ejercicio").attr("data-url", url);
+        $("#borrar-ejercicio").data("url", url);
         $('#myModal').modal('show');
     });
 
     $("#borrar-ejercicio").click(function() {
+        console.log($(this).data("url"));
         $.ajax({
             url: $("#borrar-ejercicio").data("url"),
             type: "DELETE",
@@ -57,6 +58,32 @@ $(document).ready(function() {
                 } else {
                     $("#alert").html('<div class="alert alert-success alert-dismissible fade in" role="alert" id="mensaje-operacion"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + datajson.contenidoMSG + '</div>');
                     $("#alert").show();
+                    var table = $('#example').DataTable();
+                    table.clear();
+                    console.log("Limpieza")
+                    $.getJSON("/ejercicios/todos", function(data) {
+                        var status = data.status;
+                        var contenido = data.contenido;
+                        var dataAgregarTabla = [];
+                        $.each(contenido, function(key, value){
+                            var idejercicio = value._id;
+                            var dataAgregar = [];
+                            dataAgregar[0] = value.titulo;
+                            if(typeof value.autor !== undefined){
+                                dataAgregar[1] = "default";
+                            } else {
+                                dataAgregar[1] = value.autor;
+                            }
+                            dataAgregar[2] = value.dificultad.nombre;
+                            dataAgregar[3] = '<a href="/ejercicios/editar/' + idejercicio + '" class="col-sm-6 text-center"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a><a data-url="/ejercicios/borrar/' + idejercicio + '" href="javascript:void(0)" class="col-sm-6 text-center borrar"><i class="fa fa-eraser" aria-hidden="true"></i> Borrar</a>';
+                            
+                            dataAgregarTabla.push(dataAgregar);
+                        });
+                        console.log(dataAgregarTabla);
+                        table.rows.add(dataAgregarTabla);
+                        table.draw();
+                        console.log("Dibujar");
+                    });
                 }
             }
         });
