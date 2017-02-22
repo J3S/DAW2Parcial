@@ -130,10 +130,6 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-sm-8 col-sm-pull-2 col-sm-push-2" id="alert" hidden>
-        </div>
-      </div>
-      <div class="row">
         <div class="col-xs-12">
           <form role="form" id="form-editar">
             <div class="col-sm-6 form-group">
@@ -176,7 +172,7 @@
                     <p id="descripcion-ejercicio"></p>
                   </div>
                 </div>
-                <div class="row" id="upload">
+                <div class="row hidden" id="upload">
                   <div class="col-sm-8">
                     <form id="form-archivo">
                       <label>Subir archivo con el código de la solución del ejercicio</label>
@@ -188,6 +184,12 @@
               </div>
               <!-- /.box-header -->
               <!-- /.box-body -->
+              <div class="box-footer">
+                      <div class="row">
+                        <div class="col-sm-8 col-sm-pull-2 col-sm-push-2" id="alert" hidden>
+                        </div>
+                      </div>
+              </div>
             </div>
             <!-- /.box -->
         </div>

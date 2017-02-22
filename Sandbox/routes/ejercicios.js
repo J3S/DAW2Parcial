@@ -184,13 +184,17 @@ router.post('/resolver', function(req, res, next) {
             file_name = old_path.substr(index),
             new_path = path.join(process.env.PWD, '/uploads/', file_name + '.' + file_ext);
             var ruta = new_path.split('/uploads')[1];
+            if(file_ext === '') {
+                res.status(200);
+                return res.json({'estado': false, mensaje: "Error al leer el archivo"});
+            }
 
         fs.readFile(old_path, function(err, data) {
             fs.writeFile(new_path, data, function(err) {
                 fs.unlink(old_path, function(err) {
                     if (err) {
                         res.status(200);
-                        return res.json({'success': false, mensaje: "Error al leer el archivo"});
+                        return res.json({'estado': false, mensaje: "Error al leer el archivo"});
                     } else {
                         var options = {
                             mode: 'text',
@@ -200,14 +204,14 @@ router.post('/resolver', function(req, res, next) {
                         PythonShell.run('/uploads' + ruta, options, function (err, results) {
                             if (err) {
                                 res.status(200);
-                                return res.json({'success': false, mensaje: "Hay errores en el código del archivo"});
+                                return res.json({'estado': false, mensaje: "Hay errores en el código del archivo"});
                             }
                             if (results[0] === salida) {
                                 res.status(200);
-                                return res.json({'success': true, mensaje: "El código subido es correcto"});
+                                return res.json({'estado': true, mensaje: "El código subido es correcto"});
                             } else {
                                 res.status(200);
-                                return res.json({'success': false, mensaje: "El código subido es incorrecto, no coincide con la respuesta"});
+                                return res.json({'estado': false, mensaje: "El código subido es incorrecto, no coincide con la respuesta"});
                             }
                         });
                     }
@@ -216,19 +220,5 @@ router.post('/resolver', function(req, res, next) {
         });
     });
 });
-
-// var options = {
-//     mode: 'text',
-//     pythonPath: 'path/to/python',
-//     pythonOptions: ['-u'],
-//     scriptPath: 'path/to/my/scripts',
-//     args: ['value1', 'value2', 'value3']
-// };
-
-// PythonShell.run('script.py', options, function (err, results) {
-//     if (err) throw err;
-//     // results is an array consisting of messages collected during execution
-//     console.log('results: %j', results);
-// });
 
 module.exports = router;

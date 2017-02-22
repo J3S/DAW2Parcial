@@ -32,6 +32,7 @@ $(function() {
                 salida = salida + datajson.contenidoMSG.datosSalida;
                 $("#etiquetas-ejercicio").text("Etiquetas: " + etiquetasStr);
                 $("#descripcion-ejercicio").text("Descripción: " + datajson.contenidoMSG.descripcion);
+                $("#upload").removeClass("hidden");
             }
         });
     });
@@ -50,7 +51,23 @@ $(function() {
             contentType: false,
             processData: false,
             success: function(data){
-                console.log(data);
+                var datajson = JSON.parse(data);
+                if (datajson.estado == true) {
+                    var dificultad_env = $("#dificultad :selected").text();
+                    var puntos = 0;
+                    if (dificultad_env === 'Fácil') {
+                        puntos = 5;
+                    } else if (dificultad_env === 'Intermedio') {
+                        puntos = 10;
+                    } else {
+                        puntos = 15;
+                    }
+                    $("#alert").html('<div class="alert alert-success alert-dismissible fade in" role="alert" id="mensaje-operacion"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + datajson.mensaje + '<br /> Has ganado ' + puntos + ' puntos</div>');
+                    $("#alert").show();
+                } else {
+                    $("#alert").html('<div class="alert alert-danger alert-dismissible fade in" role="alert" id="mensaje-operacion"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + datajson.mensaje + '</div>');
+                    $("#alert").show();
+                }
             }
         });
     });
