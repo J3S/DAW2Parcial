@@ -45,7 +45,6 @@ $(document).ready(function() {
     });
 
     $("#borrar-ejercicio").click(function() {
-        console.log($(this).data("url"));
         $.ajax({
             url: $("#borrar-ejercicio").data("url"),
             type: "DELETE",
@@ -60,7 +59,6 @@ $(document).ready(function() {
                     $("#alert").show();
                     var table = $('#example').DataTable();
                     table.clear();
-                    console.log("Limpieza")
                     $.getJSON("/ejercicios/todos", function(data) {
                         var status = data.status;
                         var contenido = data.contenido;
@@ -79,10 +77,8 @@ $(document).ready(function() {
                             
                             dataAgregarTabla.push(dataAgregar);
                         });
-                        console.log(dataAgregarTabla);
                         table.rows.add(dataAgregarTabla);
                         table.draw();
-                        console.log("Dibujar");
                     });
                 }
             }

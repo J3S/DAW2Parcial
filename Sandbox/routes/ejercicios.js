@@ -117,13 +117,46 @@ router.put('/editar/:id', function(req, res, next) {
 });
 
 router.delete('/borrar/:id', function(req, res, next) {
-    console.log(req.params.id);
     Ejercicio.remove({
         _id: req.params.id
     }, function(err, ejercicio) {
         if(err)
             return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al borrar el ejercicio - El ejercicio no existe" }));
         return res.send(JSON.stringify({ estadoError: false, contenidoMSG: "Ejercicio borrado exitosamente"}));
+    });
+});
+
+router.get('/resolver', function(req, res, next) {
+    dificultades_enviar = [];
+    etiquetas_enviar = [];
+    Dificultad.find(function(err, dificultades) {
+        if(!err)
+            dificultades_enviar = dificultades;
+        Etiqueta.find(function(err, etiquetas) {
+            if(!err)
+                etiquetas_enviar = etiquetas;
+            data = {
+                dificultades: dificultades_enviar,
+                etiquetas: etiquetas_enviar
+            };
+            res.render('ejercicios/resolver', data);
+        });
+    });
+});
+
+router.get('/ejercicio_random', function(req, res, next) {
+    var dificultad = req.query.dificultad;
+    var etiqueta = req.query.etiqueta;
+    Ejercicio.find({"dificultad.nombre": dificultad, "etiquetas.valor": etiqueta}, function(err, ejercicios) {
+        var randomIndex = Math.floor(Math.random() * ((ejercicios.length-1) - 0 + 1)) + 0;
+        console.log(ejercicios[randomIndex]);
+        if(err)
+            return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al buscar ejercicios - Problemas con la base de datos" }));
+        if(ejercicios.length > 0) {
+            return res.send(JSON.stringify({ estadoError: false, contenidoMSG: ejercicios[randomIndex]}));
+        } else {
+            return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "No se ha encontrado ningún ejercicio que tenga estos dos campos"}));
+        }
     });
 });
 
