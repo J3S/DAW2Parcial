@@ -4,7 +4,8 @@ $(document).ready(function() {
         var status = data.status;
         var contenido = data.contenido;
         $.each(contenido, function(key, value){
-            var dificultad = value.dificultad;
+            var dificultad = value.dificultad.nombre;
+            var idejercicio = value._id;
             var titulo = value.titulo;
             var autor = value.autor;
             var listadificultad = value.lista;
@@ -12,9 +13,11 @@ $(document).ready(function() {
             var td1 = $('<td>' + titulo + '</td>'); 
             var td2 = $('<td>' + autor + '</td>'); 
             var td3 = $('<td>' + dificultad + '</td>'); 
+            var td4 = $('<td><a href="/ejercicios/editar/' + idejercicio + '" class="col-sm-6 text-center"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a><a data-url="/ejercicios/borrar/' + idejercicio + '" href="javascript:void(0)" class="col-sm-6 text-center borrar"><i class="fa fa-eraser" aria-hidden="true"></i> Borrar</a></td>');
             tr.append(td1);
             tr.append(td2);
             tr.append(td3);
+            tr.append(td4);
             listaEjercicios.append(tr);
         });
         $('#example').DataTable( {
@@ -30,6 +33,30 @@ $(document).ready(function() {
                   "sLast": "Último",
                   "sNext": "Siguiente",
                   "sPrevious": "Anterior"
+                }
+            }
+        });
+    });
+
+    $('body').on("click", "a.borrar", function() {
+        var url = $(this).data("url");
+        $("#borrar-ejercicio").attr("data-url", url);
+        $('#myModal').modal('show');
+    });
+
+    $("#borrar-ejercicio").click(function() {
+        $.ajax({
+            url: $("#borrar-ejercicio").data("url"),
+            type: "DELETE",
+            success: function(data) {
+                var datajson = JSON.parse(data);
+                $('#myModal').modal('hide');
+                if (datajson.estadoError) {
+                    $("#alert").html('<div class="alert alert-danger alert-dismissible fade in" role="alert" id="mensaje-operacion"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + datajson.contenidoMSG + '</div>');
+                    $("#alert").show();
+                } else {
+                    $("#alert").html('<div class="alert alert-success alert-dismissible fade in" role="alert" id="mensaje-operacion"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + datajson.contenidoMSG + '</div>');
+                    $("#alert").show();
                 }
             }
         });

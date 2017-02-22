@@ -28,6 +28,25 @@
   <![endif]-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Borrar ejercicio</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿Está seguro de que desea borrar este ejercicio?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" id="borrar-ejercicio">Si</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -128,6 +147,10 @@
 
     <!-- Main content -->
     <section class="content">
+      <div class="row">
+        <div class="col-sm-8 col-sm-pull-2 col-sm-push-2" id="alert" hidden>
+        </div>
+      </div>
       <div class="row" id="div-crear-ejercicio">
         <div class="col-xs-12" style="padding-bottom: 10px">
           <a class="btn btn-success btn-lg" href="/ejercicios/crear"><i class="fa fa-plus"></i> Crear Ejercicio</a>
@@ -148,6 +171,7 @@
                             <th>Título</th>
                             <th>Autor</th>
                             <th>Dificultad</th>
+                            <th>Opciones</th>
                           </tr>
                         </thead>
                         <tbody id="lista-ejercicios">

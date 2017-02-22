@@ -155,7 +155,6 @@ $(function() {
                     if (data.estadoError) {
                         $("#alert").html('<div class="alert alert-danger alert-dismissible fade in" role="alert" id="mensaje-operacion"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + data.contenidoMSG + '</div>');
                         $("#alert").show();
-
                     } else {
                         $("#alert").html('<div class="alert alert-success alert-dismissible fade in" role="alert" id="mensaje-operacion"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + data.contenidoMSG + '</div>');
                         $("#alert").show();
