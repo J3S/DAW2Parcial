@@ -1,6 +1,11 @@
-var express = require('express');
+var express = require('express'),
+    http = require('http'),
+    formidable = require('formidable'),
+    fs = require('fs'),
+    path = require('path');
 var router = express.Router();
 var mongoose = require('mongoose');
+var PythonShell = require('python-shell');
 
 var Ejercicio = require('../models/ejercicios');
 var Dificultad = require('../models/dificultads');
@@ -159,5 +164,71 @@ router.get('/ejercicio_random', function(req, res, next) {
         }
     });
 });
+
+router.post('/resolver', function(req, res, next) {
+    var form = new formidable.IncomingForm();
+    var argumentos = [];
+    var salida = "";
+    form.on('field', function (field, value) {
+        if(field === 'entradas') {
+            argumentos = value.split(',');
+        }
+        else salida = salida + value;
+    });
+    form.parse(req, function(err, fields, files) {
+        // `file` is the name of the <input> field of type `file`
+        var old_path = files.file.path,
+            file_size = files.file.size,
+            file_ext = files.file.name.split('.').pop(),
+            index = old_path.lastIndexOf('/') + 1,
+            file_name = old_path.substr(index),
+            new_path = path.join(process.env.PWD, '/uploads/', file_name + '.' + file_ext);
+            var ruta = new_path.split('/uploads')[1];
+
+        fs.readFile(old_path, function(err, data) {
+            fs.writeFile(new_path, data, function(err) {
+                fs.unlink(old_path, function(err) {
+                    if (err) {
+                        res.status(200);
+                        return res.json({'success': false, mensaje: "Error al leer el archivo"});
+                    } else {
+                        var options = {
+                            mode: 'text',
+                            args: argumentos
+                        };
+
+                        PythonShell.run('/uploads' + ruta, options, function (err, results) {
+                            if (err) {
+                                res.status(200);
+                                return res.json({'success': false, mensaje: "Hay errores en el código del archivo"});
+                            }
+                            if (results[0] === salida) {
+                                res.status(200);
+                                return res.json({'success': true, mensaje: "El código subido es correcto"});
+                            } else {
+                                res.status(200);
+                                return res.json({'success': false, mensaje: "El código subido es incorrecto, no coincide con la respuesta"});
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    });
+});
+
+// var options = {
+//     mode: 'text',
+//     pythonPath: 'path/to/python',
+//     pythonOptions: ['-u'],
+//     scriptPath: 'path/to/my/scripts',
+//     args: ['value1', 'value2', 'value3']
+// };
+
+// PythonShell.run('script.py', options, function (err, results) {
+//     if (err) throw err;
+//     // results is an array consisting of messages collected during execution
+//     console.log('results: %j', results);
+// });
 
 module.exports = router;

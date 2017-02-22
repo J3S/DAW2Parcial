@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+// var users = require('./routes/users');
 var ejercicios = require('./routes/ejercicios');
 
 var app = express();
@@ -41,7 +41,7 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.use('/node_modules/slimscroll',  express.static(__dirname + '/node_modules/jquery-slimscroll'));
 
 app.use('/', index);
-app.use('/users', users);
+// app.use('/users', users);
 app.use('/ejercicios', ejercicios);
 
 // catch 404 and forward to error handler
