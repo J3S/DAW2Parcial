@@ -1,6 +1,5 @@
 $(function() {
     var contador_entrada = 0;
-    var contador_salida = 0;
     var contador_etiqueta = 0;
     $("mensaje-operacion").hide();
 
@@ -61,7 +60,7 @@ $(function() {
         $(this).parent().remove();
     });
 
-    $('#crear-ejercicio').click(function (event) {
+    $('#editar-ejercicio').click(function (event) {
         event.preventDefault();
         var titulo = $("#titulo").val();
         var descripcion = $("#descripcion").val();
@@ -147,8 +146,8 @@ $(function() {
             datos_enviados.salida = salida;
             datos_enviados.dificultad = dificultad;
             $.ajax({
-                url:"/ejercicios/crear",
-                type: "POST",
+                url: "/ejercicios" + window.location.href.split("/ejercicios")[1],
+                type: "PUT",
                 cache: false,
                 data: datos_enviados,
                 dataType: "json",
@@ -160,13 +159,6 @@ $(function() {
                     } else {
                         $("#alert").html('<div class="alert alert-success alert-dismissible fade in" role="alert" id="mensaje-operacion"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + data.contenidoMSG + '</div>');
                         $("#alert").show();
-                        $(':input','#form-crear')
-                          .removeAttr('checked')
-                          .removeAttr('selected')
-                          .not(':button, :submit, :reset, :hidden, :radio, :checkbox')
-                          .val('');
-                        $('#entrada-agregados').children().slice(1).remove();
-                        $('#etiquetas-agregadas').children().slice(1).remove();
                     }
                   },
                   error: function( XMLHttpRequest, textStatus, errorThrown){

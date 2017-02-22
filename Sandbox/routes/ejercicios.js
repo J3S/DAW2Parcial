@@ -73,7 +73,7 @@ router.post('/crear', function(req, res, next) {
             if(err)
                 return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al crear el ejercicio - Problemas con la base de datos"}));
             return res.send(JSON.stringify({ estadoError: false, contenidoMSG: "Ejercicio creado exitosamente"}));
-        })
+        });
     });
 });
 
@@ -88,6 +88,29 @@ router.get('/editar/:id', function(req, res, next) {
                 if(err)
                     return res.render('ejercicios/editar', {estadoBusqueda: false, contenido: "", dificultades: "", etiquetas: ""});
                 return res.render('ejercicios/editar', {estadoBusqueda: true, contenido: ejercicio, dificultades: dificultades_enviar, etiquetas: etiquetas_enviar});
+            });
+        });
+    });
+});
+
+router.put('/editar/:id', function(req, res, next) {
+    Ejercicio.findById(req.params.id, function(err, ejercicio) {
+        if(err)
+            return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al editar el ejercicio - El ejercicio no existe" }));
+        Dificultad.findById(req.body.dificultad, function(err, dificultad) {
+            if(err)
+                return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al editar el ejercicio - La dificultad no existe" }));
+            ejercicio.titulo = req.body.titulo;
+            ejercicio.descripcion = req.body.descripcion;
+            ejercicio.datosEntrada = JSON.parse(req.body.entradas);
+            ejercicio.datosSalida = req.body.salida;
+            ejercicio.etiquetas = JSON.parse(req.body.etiquetas);
+            ejercicio.dificultad = dificultad;
+
+            ejercicio.save(function(err) {
+                if(err)
+                    return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al editar el ejercicio - Problemas con la base de datos"}));
+                return res.send(JSON.stringify({ estadoError: false, contenidoMSG: "Ejercicio editado exitosamente"}));
             });
         });
     });
