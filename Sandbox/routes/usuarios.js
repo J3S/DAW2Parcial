@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Usuarios = require('../models/usuario');
+var nodemailer = require('nodemailer');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -39,6 +40,32 @@ router.post('/crear_user', function(req, res, next) {
     usuario.save(function (err) {if (err) console.log ('Error on save!')});
     console.log("guardado con exito");
     //res.render('usuarios/index')
+    var smtpTransport = nodemailer.createTransport({
+      service: 'Gmail',
+      host: "smtp.gmail.com",
+      auth:{
+        user: 'webfundamentos@gmail.com',
+        pass: 'fundamentosdaw'
+      }
+    });
+
+    var mivariable = '<p>Hola, esta es tu contraseña temporal para el sitio web de fundamentos de programación: '+ password + '<p>';
+
+    var mailOptions={
+      from: 'PAGINA FUNDAMENTOS',
+      to: correo,
+      subject: 'Contraseña Cuenta',
+      text: password,
+      html: mivariable
+      
+    }
+    smtpTransport.sendMail(mailOptions, function(err, resp){
+      if(err){
+        console.log(err);
+      } else{
+        console.log("enviado con exito");
+      }
+    });
 
  });
 

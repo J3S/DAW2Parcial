@@ -4,14 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var index = require('./routes/index');
-// var users = require('./routes/users');
+var users = require('./routes/usuarios');
 var ejercicios = require('./routes/ejercicios');
 
 var app = express();
 
-var db = require('./models/db');
+//var db = require('./models/db');
 var ejercicio = require('./models/ejercicios');
 var dificultad = require('./models/dificultads');
 var etiqueta = require('./models/etiquetas');
@@ -41,7 +42,7 @@ app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.use('/node_modules/slimscroll',  express.static(__dirname + '/node_modules/jquery-slimscroll'));
 
 app.use('/', index);
-// app.use('/users', users);
+app.use('/usuarios', users);
 app.use('/ejercicios', ejercicios);
 
 // catch 404 and forward to error handler
@@ -60,6 +61,15 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+var uristring = 'mongodb://proyecto:parcial2@ds157549.mlab.com:57549/proyectodaw';
+mongoose.connect(uristring, function (err, res) {
+      if (err) {
+      console.log ('ERROR DE CONEXIÓN CON LA BASE DE DATOS' + err);
+      } else {
+      console.log ('CONEXIÓN REALIZADA EXITOSAMENTE');
+      }
 });
 
 module.exports = app;
