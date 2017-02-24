@@ -104,7 +104,7 @@
         <li class="header">Opciones</li>
         <li><a href="../"><i class="fa fa-tasks"></i> <span>Resumen</span></a></li>
         <li class="active"><a href="#"><i class="fa fa-book"></i> <span>Usuarios</span></a></li>
-        
+        <li><a href="../cursos/"><i class="fa fa-folder"></i> <span>Cursos</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -164,7 +164,7 @@
                             <th>{{identificacion}}</th>
                             <th>{{carrera}}</th>
                             <td>
-                              <a href="" class="col-sm-6 text-center"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a><a data-url="" href="javascript:void(0)" class="col-sm-6 text-center borrar"><i class="fa fa-eraser" aria-hidden="true"></i> Borrar</a>
+                              <a href="/usuarios/editar/{{id}}" class="col-sm-6 text-center"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a><a href='/usuarios/{{id}}' class="col-sm-6 text-center borrar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Borrar</a>
                             </td>
                               <!---->
                           {{/each}}

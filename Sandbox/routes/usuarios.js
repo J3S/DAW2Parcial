@@ -69,16 +69,45 @@ router.post('/crear_user', function(req, res, next) {
 
  });
 
-router.delete('/:_id', function(req, res, next){
-	console.log("eliminaaaaaaaaaaaaaaaaaaaar");
-	var id = req.params._id;
-	Usuarios.removeUser(id, (err, usuario) => {
-		if(err){
-			throw err;
-		}
-		res.json(usuario);
-		console.log("se elimino pe");
-	});
+router.get('/:_id', function(req, res, next){
+  var id = req.params._id;
+  Usuarios.removeUser(id, (err, usuario) => {
+    if(err){
+      throw err;
+    } else {
+      res.redirect('/usuarios/');
+    }
+  });
+});
+
+router.get('/editar/:_id', function(req, res, next){
+  Usuarios.findById(req.params._id, function(err, user) {
+    if (err){
+      throw err;
+    }else{
+      console.log(user);
+      res.render('usuarios/editar', {usuarios: user});
+    }        
+  });    
+});
+
+router.post('/editar/:_id', function(req, res, next) {
+  Usuarios.findById(req.params._id, function(err, user) {
+    if (err){
+      throw err;
+    }else{
+      user.nombres = req.param('nombres');
+      user.apellidos = req.param('apellidos');
+      user.correo = req.param('correo');
+      user.rol = req.param('rol');
+      user.tipoid = req.param('tipoid');
+      user.identificacion = req.param('identificacion');
+      user.carrera = req.param('carrera');
+      user.password = req.param('password');
+      user.save(function (err) {if (err) console.log ('Error on save!')});
+      console.log("actualizado con exito");
+    }        
+  });  
 });
 
 module.exports = router;

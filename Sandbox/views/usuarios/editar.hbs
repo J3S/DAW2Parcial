@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Sandbox | Crear</title>
+  <title>Sandbox | Editar</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -40,7 +40,7 @@
           <div class="modal-body">
             <form>
                 <div class="form-group" id="usuario-group">
-                    <label for="usuario" class="control-label">Usuario guardado exitosamente</label>
+                    <label for="usuario" class="control-label">Usuario actualizado exitosamente</label>
                   </div>
             </form>
           </div>
@@ -127,7 +127,6 @@
         <li class="header">Opciones</li>
         <li><a href="../"><i class="fa fa-tasks"></i> <span>Resumen</span></a></li>
         <li><a class="active" href=""><i class="fa fa-book"></i> <span>Ejercicios</span></a></li>
-        <li><a href="../cursos/"><i class="fa fa-folder"></i> <span>Cursos</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -139,11 +138,11 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Crear Usuario</h1>
+      <h1>Editar Usuario</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li>Crear Usuario</li>
-        <li class="active">Crear</li>
+        <li>Editar Usuario</li>
+        <li class="active">Editar</li>
       </ol>
     </section>
 
@@ -157,21 +156,21 @@
         <div class="col-xs-12">
           <div class="box box-primary">
             <!-- form start -->
-            <form role="form" id="form-crear" action="/usuarios/crear_user" method="post">
+            <form role="form" id="form-crear" action="/usuarios/editar/{{usuarios.id}}" method="post">
               <div class="box-body">
                 <div class="form-group" id="nombre-group">
                   <label for="nombres">Nombres</label>
-                  <input type="text" class="form-control" name="nombres" placeholder="nombres del usuario">
+                  <input type="text" class="form-control" name="nombres" value="{{usuarios.nombres}}">
                   <p class="hidden text-danger" id="msg-titulo">Nombre vacío</p>
                 </div>
                 <div class="form-group" id="apellido-group">
                   <label for="apellidos">Apellidos</label>
-                  <input type="text" class="form-control" name="apellidos" placeholder="apellidos del usuario">
+                  <input type="text" class="form-control" name="apellidos" value="{{usuarios.apellidos}}">
                   <p class="hidden text-danger" id="msg-descripcion">Apellidos vacío</p>
                 </div>
                 <div class="form-group" id="correo-group">
                   <label for="correo">Correo</label>
-                  <input type="text" class="form-control" name="correo" placeholder="Correo del usuario">
+                  <input type="text" class="form-control" name="correo" value="{{usuarios.correo}}">
                   <p class="hidden text-danger" id="msg-descripcion">Correo vacío</p>
                 </div>
                 <div class="form-group" id="rol-group">
@@ -194,22 +193,22 @@
                 </div>
                 <div class="form-group" id="identificacion-group">
                   <label for="identificacion">Identificación</label>
-                  <input class="form-control" name="identificacion" placeholder="Matricula/Cedula">
+                  <input class="form-control" name="identificacion" value="{{usuarios.identificacion}}">
                   <p class="hidden text-danger" id="msg-descripcion">Identificacion vacía</p>
                 </div>
                 <div class="form-group" id="carrera-group">
                   <label for="carrera">Carrera</label>
-                  <input class="form-control" name="carrera" placeholder="Carrera del estudiante">
+                  <input class="form-control" name="carrera" value="{{usuarios.carrera}}">
                   <p class="hidden text-danger" id="msg-descripcion">Carrera vacía</p>
                 </div>
                 <div class="form-group" id="password-group">
                   <label for="password">Password</label>
-                  <input class="form-control" name="password" placeholder="password del usuario">
+                  <input class="form-control" name="password" value="{{usuarios.password}}">
                   <p class="hidden text-danger" id="msg-descripcion">password vacía</p>
                 </div>
                 <div class="box-footer text-center">
                   <a href="/usuarios" class="btn btn-default">Cancelar</a>
-                  <button type="submit" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Crear</button>
+                  <button type="submit" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Actualizar</button>
                   
                 </div>
               </div>  
