@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Sandbox | Cursos</title>
+  <title>Sandbox | Crear</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -26,8 +26,34 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <!-- JS file -->
+   
+  <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+
+<!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            
+          </div>
+          <div class="modal-body">
+            <form>
+                <div class="form-group" id="usuario-group">
+                    <label for="usuario" class="control-label">Curso guardado exitosamente</label>
+                  </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" value="aceptar" onclick = "location='/cursos/'"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
 <!-- Site wrapper -->
 <div class="wrapper">
 
@@ -70,10 +96,10 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="../perfil" class="btn btn-default btn-flat">Perfil</a>
+                  <a href="../../perfil" class="btn btn-default btn-flat">Perfil</a>
                 </div>
                 <div class="pull-right">
-                  <a href="../../../../" class="btn btn-default btn-flat">Cerrar sesión</a>
+                  <a href="../../../../../" class="btn btn-default btn-flat">Cerrar sesión</a>
                 </div>
               </li>
             </ul>
@@ -104,7 +130,7 @@
         <li class="header">Opciones</li>
         <li><a href="../"><i class="fa fa-tasks"></i> <span>Resumen</span></a></li>
         <li><a href="../usuarios/"><i class="fa fa-book"></i> <span>Usuarios</span></a></li>
-        <li class="active"><a href="#"><i class="fa fa-folder"></i> <span>Cursos</span></a></li>
+        <li><a class="active" href=""><i class="fa fa-book"></i> <span>Cursos</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -116,58 +142,62 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Cursos Registrados
-      </h1>
+      <h1>Crear Curso</h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Cursos</li>
+        <li>Crear Curso</li>
+        <li class="active">Crear</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="row" id="div-crear-ejercicio">
-        <div class="col-xs-12" style="padding-bottom: 10px">
-          <a class="btn btn-success btn-lg" href="/usuarios/crear_user"><i class="fa fa-plus"></i> Crear Curso</a>
+      <div class="row">
+        <div class="col-sm-8 col-sm-pull-2 col-sm-push-2" id="alert" hidden>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
-            <div class="box box-success">
-              <div class="box-header">
-                <h3 class="box-title">Cursos registrados</h3>
-              </div>
-              <!-- /.box-header -->
-              <div class="box-body table-responsive">
-                    <!-- <div class="container"> -->
-                      <table id="usuarios" class="display table table-hover" cellspacing="0" width="100%">
-                        <thead>
-                          <tr>
-                            <th>Profesor</th>
-                            <th>Paralelo</th>
-                            <th>Lista de Estudiantes</th>
-                          </tr>
-                        </thead>
-                        <tbody id="lista-ejercicios">
-                          {{#each cursos}}
-                          <tr>
-                            <th>{{profesor}}</th>
-                            <th>{{paralelo}}</th>
-                            <th>{{estudiantes}}</th>
-                            <td>
-                              <a href="" class="col-sm-6 text-center"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a><a data-url="" href="javascript:void(0)" class="col-sm-6 text-center borrar"><i class="fa fa-eraser" aria-hidden="true"></i> Borrar</a>
-                            </td>
-                              <!---->
-                          {{/each}}
-                        </tbody>
-            
-                      </table>
-                    <!-- </div> -->
-              </div>
-              <!-- /.box-body -->
-            </div>
-            <!-- /.box -->
+          <div class="box box-primary">
+            <!-- form start -->
+            <form role="form" id="form-crear" action="/cursos/crear" method="post">
+              <div class="box-body">
+                <div class="form-group" id="profesor-group">
+                  <label for="profesor">Profesor</label>
+                  <input type="text" class="form-control" name="profesor" placeholder="profesor del curso">
+                  <p class="hidden text-danger" id="msg-titulo">Profesor vacío</p>
+                </div>
+                <div class="form-group" id="paralelo-group">
+                  <label for="paralelo">Paralelo</label>
+                  <input type="text" class="form-control" name="paralelo" placeholder="numero de paralelo">
+                  <p class="hidden text-danger" id="msg-descripcion">Paralelo vacío</p>
+                </div>
+                <div class="form-group" id="estudiantes-group">
+                  <label for="estudiantes">Estudiantes</label>
+                  <div class="row">
+                    <div class="col-xs-5 col-md-5">
+                      <input type="text" class="form-control" name="estudiantes" id="estudiantes" placeholder="estudiantes del curso">
+                    </div>
+                    <div class="col-xs-4 col-md-4">
+                      <input type="button" id="agregarE" class="btn btn-primary" value="Agregar">
+                    </div>
+                    
+                  </div>
+                  
+                </div>
+                <div class="form-group" id="lista-group">
+                  <label for="lista">Lista de Estudiantes</label>
+                  
+                </div>
+                <div class="box-footer text-center">
+                  <a href="/cursos" class="btn btn-default">Cancelar</a>
+                  <button type="submit" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Crear</button>
+                  
+                </div>
+              </div>  
+            </form>  
+          
+          </div>
         </div>
       </div>
     </section>
@@ -222,11 +252,32 @@
 <!-- DataTable -->
 <script type="text/javascript" language="javascript" src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" language="javascript" src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+<script type="text/javascript" language="javascript" src="/bower_components/Autocomplete/dist/autocomplete.js"></script>
+<script type="text/javascript" language="javascript" src="/js/sandbox/cursos/agregarEstudiantes.js"></script>
 
+<script type="text/javascript">
+  $("#estudiantes").autocomplete({
+    source: function (request, response) {
+        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+        $.ajax({
+            url: "/cursos/crear/obtener",
+            dataType: "json",
+            success: function (data) {
+                response($.map(data, function(v,i){
+                    var text = v.nombres;
+                    if ( text && ( !request.term || matcher.test(text) ) ) {
+                        return {
+                                label: v.nombres + " " + v.apellidos,
+                                value: v.nombres + " " + v.apellidos
+                               };
+                    }
+                }));
+            }
+        });
+    }
+});
+</script>
 
-
-<!-- <script src="../../../../js/sandbox_profesor_ejercicios.js"></script>
-<script src="/js/sandbox/usuarios/usuarios_index.js"></script>
-<script src="../../../../js/sandbox_profesor_cargar_datos_no_principal.js"></script> -->
 </body>
 </html>

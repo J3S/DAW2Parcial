@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 var index = require('./routes/index');
 var users = require('./routes/usuarios');
 var ejercicios = require('./routes/ejercicios');
+var cursos = require('./routes/cursos');
 
 var app = express();
 
@@ -44,6 +45,7 @@ app.use('/node_modules/slimscroll',  express.static(__dirname + '/node_modules/j
 app.use('/', index);
 app.use('/usuarios', users);
 app.use('/ejercicios', ejercicios);
+app.use('/cursos', cursos);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
