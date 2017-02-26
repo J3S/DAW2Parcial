@@ -14,7 +14,7 @@ module.exports.getCursos = function(callback, limit){
 
 module.exports.removeCurso = (id, callback) => {
   var query = {_id: id};
-  usuario.remove(query, callback);
+  curso.remove(query, callback);
 }
 
 module.exports.deleteCurso = function(idUser, next) {

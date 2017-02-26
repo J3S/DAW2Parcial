@@ -11,10 +11,12 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+//pagina de crear usuario
 router.get('/crear_user', function(req, res, next) {
 	res.render('usuarios/crear_user');
 });
 
+//guardar usuario en la base de datos y enviar mail
 router.post('/crear_user', function(req, res, next) {
   
   var nombres = req.param('nombres');
@@ -69,6 +71,7 @@ router.post('/crear_user', function(req, res, next) {
 
  });
 
+//eliminar usuario
 router.get('/:_id', function(req, res, next){
   var id = req.params._id;
   Usuarios.removeUser(id, (err, usuario) => {
@@ -80,6 +83,7 @@ router.get('/:_id', function(req, res, next){
   });
 });
 
+//editar usuario
 router.get('/editar/:_id', function(req, res, next){
   Usuarios.findById(req.params._id, function(err, user) {
     if (err){
