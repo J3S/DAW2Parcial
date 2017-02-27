@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Usuarios = require('../models/usuario');
+var nodemailer = require('nodemailer');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -10,10 +11,12 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+//pagina de crear usuario
 router.get('/crear_user', function(req, res, next) {
 	res.render('usuarios/crear_user');
 });
 
+//guardar usuario en la base de datos y enviar mail
 router.post('/crear_user', function(req, res, next) {
   
   var nombres = req.param('nombres');
@@ -39,19 +42,76 @@ router.post('/crear_user', function(req, res, next) {
     usuario.save(function (err) {if (err) console.log ('Error on save!')});
     console.log("guardado con exito");
     //res.render('usuarios/index')
+    var smtpTransport = nodemailer.createTransport({
+      service: 'Gmail',
+      host: "smtp.gmail.com",
+      auth:{
+        user: 'webfundamentos@gmail.com',
+        pass: 'fundamentosdaw'
+      }
+    });
+
+    var mivariable = '<p>Hola, esta es tu contraseña temporal para el sitio web de fundamentos de programación: '+ password + '<p>';
+
+    var mailOptions={
+      from: 'PAGINA FUNDAMENTOS',
+      to: correo,
+      subject: 'Contraseña Cuenta',
+      text: password,
+      html: mivariable
+      
+    }
+    smtpTransport.sendMail(mailOptions, function(err, resp){
+      if(err){
+        console.log(err);
+      } else{
+        console.log("enviado con exito");
+      }
+    });
 
  });
 
-router.delete('/:_id', function(req, res, next){
-	console.log("eliminaaaaaaaaaaaaaaaaaaaar");
-	var id = req.params._id;
-	Usuarios.removeUser(id, (err, usuario) => {
-		if(err){
-			throw err;
-		}
-		res.json(usuario);
-		console.log("se elimino pe");
-	});
+//eliminar usuario
+router.get('/:_id', function(req, res, next){
+  var id = req.params._id;
+  Usuarios.removeUser(id, (err, usuario) => {
+    if(err){
+      throw err;
+    } else {
+      res.redirect('/usuarios/');
+    }
+  });
+});
+
+//editar usuario
+router.get('/editar/:_id', function(req, res, next){
+  Usuarios.findById(req.params._id, function(err, user) {
+    if (err){
+      throw err;
+    }else{
+      console.log(user);
+      res.render('usuarios/editar', {usuarios: user});
+    }        
+  });    
+});
+
+router.post('/editar/:_id', function(req, res, next) {
+  Usuarios.findById(req.params._id, function(err, user) {
+    if (err){
+      throw err;
+    }else{
+      user.nombres = req.param('nombres');
+      user.apellidos = req.param('apellidos');
+      user.correo = req.param('correo');
+      user.rol = req.param('rol');
+      user.tipoid = req.param('tipoid');
+      user.identificacion = req.param('identificacion');
+      user.carrera = req.param('carrera');
+      user.password = req.param('password');
+      user.save(function (err) {if (err) console.log ('Error on save!')});
+      console.log("actualizado con exito");
+    }        
+  });  
 });
 
 module.exports = router;
