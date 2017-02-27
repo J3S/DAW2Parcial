@@ -2,7 +2,13 @@ var express = require('express');
 var router = express.Router();
 var Cursos = require('../models/cursos');
 var Usuarios = require('../models/usuario');
+var formidable = require('formidable'),
+    http = require('http'),
+    util = require('util'),
+    fs   = require('fs');
+var path = require('path');
 
+var csv = require('fast-csv');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -104,6 +110,65 @@ router.post('/editar/:_id', function(req, res, next) {
       console.log("actualizado con exito");
     }        
   });  
+});
+
+//leer csv y guardar datos
+router.post('/archivo', function(req, res, next) {
+	
+	var multiparty = require("multiparty");
+	var form = new multiparty.Form();
+
+	form.parse(req, function(err, fields, files){
+		//res.send("name: "+fields.name);
+		var fil = files.file[0];
+		//console.log(files);
+		fs.readFile(fil.path, function(err, data){
+			var path = "./public/uploads/" + fil.originalFilename;
+			//res.send(path);
+			fs.writeFile(path, data, function(err){
+				if(err) console.log(err);
+				var dataArr = [];
+				var array = "";
+				fs.createReadStream(path).pipe(csv()).on('data', function(data){
+					//console.log(data);
+					var listaCurso = data[0].split(';');
+					//console.log(listaCurso);
+					dataArr.push(data[0]);
+					
+					
+				}).on('end', function(data){
+		
+					for(var i=0; i < data; i++){
+						var fila = dataArr[i];
+						var arreglo = fila.split(';');
+						for(var j=2; j < arreglo.length; j++){
+							if(j==(arreglo.length-1)){
+								array = array + String(arreglo[j]);
+							}else{
+								array = array + String(arreglo[j]) + " , ";
+							}
+							
+						}
+						var curso = new Cursos ({
+			      			profesor: arreglo[0],
+			      			paralelo: arreglo[1],
+			      			estudiantes: array
+			    		});
+
+			
+			    		curso.save(function (err) {if (err) console.log ('Error on save!')});
+			    		console.log("guardado con exito");
+						array = "";
+					}
+
+					res.redirect('/cursos/');
+					
+	
+				});
+
+			});
+		});
+	});
 });
 
 module.exports = router;

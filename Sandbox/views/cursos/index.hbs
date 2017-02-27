@@ -130,6 +130,16 @@
       <div class="row" id="div-crear-ejercicio">
         <div class="col-xs-12" style="padding-bottom: 10px">
           <a class="btn btn-success btn-lg" href="/cursos/crear"><i class="fa fa-plus"></i> Crear Curso</a>
+          <form action="/cursos/archivo" enctype="multipart/form-data" method="post">
+            <br><h4>Importar Curso(csv)</h4>
+            <div class="row">
+              <div class="col-xs-4 col-sm-4 col-md-4" >
+                <input type="file" name="file" id="archivo" >
+              </div>
+              <div class="col-xs-8 col-sm-8 col-md-8" >
+                <input type="submit" name="" value="Ingresar Curso" class="btn btn-primary">
+              </div>
+          </form>
         </div>
       </div>
       <div class="row">
