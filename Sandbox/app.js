@@ -5,11 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var passport = require('passport');
+var session      = require('express-session');
+var flash    = require('connect-flash');
 
 var index = require('./routes/index');
 var users = require('./routes/usuarios');
 var ejercicios = require('./routes/ejercicios');
 var cursos = require('./routes/cursos');
+var login = require('./routes/login');
 
 var app = express();
 
@@ -42,10 +46,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.use('/node_modules/slimscroll',  express.static(__dirname + '/node_modules/jquery-slimscroll'));
 
+
+// required for passport
+require('./config/passport')(passport); // pass passport for configuration
+app.use(session({secret:'somesecrettokenhere'}));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+
 app.use('/', index);
 app.use('/usuarios', users);
 app.use('/ejercicios', ejercicios);
 app.use('/cursos', cursos);
+app.use('/login', login);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

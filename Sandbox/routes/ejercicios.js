@@ -6,6 +6,7 @@ var express = require('express'),
 var router = express.Router();
 var mongoose = require('mongoose');
 var PythonShell = require('python-shell');
+var passport = require('passport');
 
 var Ejercicio = require('../models/ejercicios');
 var Dificultad = require('../models/dificultads');
@@ -43,6 +44,8 @@ router.get('/todos', function(req, res, next) {
 router.get('/crear', function(req, res, next) {
     dificultades_enviar = [];
     etiquetas_enviar = [];
+    console.log("DATA SESSION")
+    console.log(req.user);
     Dificultad.find(function(err, dificultades) {
         if(!err)
             dificultades_enviar = dificultades;
@@ -51,7 +54,8 @@ router.get('/crear', function(req, res, next) {
                 etiquetas_enviar = etiquetas;
             data = {
                 dificultades: dificultades_enviar,
-                etiquetas: etiquetas_enviar
+                etiquetas: etiquetas_enviar,
+                user: req.user
             };
             res.render('ejercicios/crear', data);
         });
