@@ -55,7 +55,7 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 
-app.use('/', index);
+app.use('/index', index);
 app.use('/usuarios', users);
 app.use('/ejercicios', ejercicios);
 app.use('/cursos', cursos);

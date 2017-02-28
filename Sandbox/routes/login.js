@@ -25,7 +25,7 @@ function isLoggedIn(req, res, next) {
 
 // process the login form
     router.post('/', passport.authenticate('local-login', {
-        successRedirect : '/ejercicios/crear', // redirect to the secure profile section
+        successRedirect : '/index', // redirect to the secure profile section
         failureRedirect : '/login', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
