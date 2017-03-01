@@ -155,20 +155,20 @@
             <!-- form start -->
             <form role="form" id="form-crear" action="/usuarios/crear_user" method="post">
               <div class="box-body">
-                <div class="form-group" id="nombre-group">
+                <div class="form-group" id="nombres-group">
                   <label for="nombres">Nombres</label>
-                  <input type="text" class="form-control" name="nombres" placeholder="nombres del usuario">
-                  <p class="hidden text-danger" id="msg-titulo">Nombre vacío</p>
+                  <input type="text" class="form-control" name="nombres" id="nombres" placeholder="nombres del usuario">
+                  <p class="hidden text-danger" id="msg-nombres">Nombre vacío</p>
                 </div>
-                <div class="form-group" id="apellido-group">
+                <div class="form-group" id="apellidos-group">
                   <label for="apellidos">Apellidos</label>
-                  <input type="text" class="form-control" name="apellidos" placeholder="apellidos del usuario">
-                  <p class="hidden text-danger" id="msg-descripcion">Apellidos vacío</p>
+                  <input type="text" class="form-control" name="apellidos" id="apellidos" placeholder="apellidos del usuario">
+                  <p class="hidden text-danger" id="msg-apellidos">Apellidos vacío</p>
                 </div>
                 <div class="form-group" id="correo-group">
                   <label for="correo">Correo</label>
-                  <input type="text" class="form-control" name="correo" placeholder="Correo del usuario">
-                  <p class="hidden text-danger" id="msg-descripcion">Correo vacío</p>
+                  <input type="text" class="form-control" name="correo" id="correo" placeholder="Correo del usuario">
+                  <p class="hidden text-danger" id="msg-correo">Correo vacío</p>
                 </div>
                 <div class="form-group" id="rol-group">
                   <label for="rol">Rol</label>
@@ -190,22 +190,22 @@
                 </div>
                 <div class="form-group" id="identificacion-group">
                   <label for="identificacion">Identificación</label>
-                  <input class="form-control" name="identificacion" placeholder="Matricula/Cedula">
-                  <p class="hidden text-danger" id="msg-descripcion">Identificacion vacía</p>
+                  <input class="form-control" name="identificacion" id="identificacion" placeholder="Matricula/Cedula">
+                  <p class="hidden text-danger" id="msg-identificacion">Identificacion vacía</p>
                 </div>
                 <div class="form-group" id="carrera-group">
                   <label for="carrera">Carrera</label>
-                  <input class="form-control" name="carrera" placeholder="Carrera del estudiante">
-                  <p class="hidden text-danger" id="msg-descripcion">Carrera vacía</p>
+                  <input class="form-control" name="carrera" id="carrera" placeholder="Carrera del estudiante">
+                  <p class="hidden text-danger" id="msg-carrera">Carrera vacía</p>
                 </div>
-                <div class="form-group" id="password-group">
+                <div class="form-group" id="pass-group">
                   <label for="password">Password</label>
-                  <input class="form-control" name="password" placeholder="password del usuario">
-                  <p class="hidden text-danger" id="msg-descripcion">password vacía</p>
+                  <input class="form-control" name="password" id="pass" placeholder="password del usuario">
+                  <p class="hidden text-danger" id="msg-pass">password vacía</p>
                 </div>
                 <div class="box-footer text-center">
                   <a href="/usuarios" class="btn btn-default">Cancelar</a>
-                  <button type="submit" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Crear</button>
+                  <button id="crearUsuario" type="submit" data-toggle="modal" class="btn btn-primary">Crear</button>
                   
                 </div>
               </div>  
@@ -267,7 +267,7 @@
 <script type="text/javascript" language="javascript" src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" language="javascript" src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
-
+<script src="/js/sandbox/usuarios/usuarios_crear.js"></script>
 
 </body>
 </html>
