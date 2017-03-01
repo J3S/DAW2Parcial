@@ -12,6 +12,8 @@ var Ejercicio = require('../models/ejercicios');
 var Dificultad = require('../models/dificultads');
 var Etiqueta = require('../models/etiquetas');
 var Usuario = require('../models/usuario');
+var EstudianteEjercicio = require('../models/estudianteejercicio');
+var EstudiantePuntos = require('../models/estudiantepunto');
 
 const STATUS_ERROR = -1;
 const STATUS_SUCCESS = 0;
@@ -29,7 +31,7 @@ router.get('/', function(req, res, next) {
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
 });
 
@@ -73,7 +75,7 @@ router.get('/crear', function(req, res, next) {
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
 });
 
@@ -110,7 +112,7 @@ router.post('/crear', function(req, res, next) {
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
 });
 
@@ -134,7 +136,7 @@ router.get('/editar/:id', function(req, res, next) {
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
 });
 
@@ -165,7 +167,7 @@ router.put('/editar/:id', function(req, res, next) {
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
 });
 
@@ -183,7 +185,7 @@ router.delete('/borrar/:id', function(req, res, next) {
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
 });
 
@@ -210,7 +212,7 @@ router.get('/resolver', function(req, res, next) {
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
 });
 
@@ -235,11 +237,14 @@ router.post('/resolver', function(req, res, next) {
     var form = new formidable.IncomingForm();
     var argumentos = [];
     var salida = "";
+    var idE = "";
     form.on('field', function (field, value) {
-        if(field === 'entradas') {
+        if(field === 'entradas')
             argumentos = value.split(',');
-        }
-        else salida = salida + value;
+        else if (field === "salida")
+            salida = salida + value;
+        else
+            idE = idE + value;
     });
     form.parse(req, function(err, fields, files) {
         // `file` is the name of the <input> field of type `file`
@@ -273,8 +278,25 @@ router.post('/resolver', function(req, res, next) {
                                 return res.json({'estado': false, mensaje: "Hay errores en el código del archivo"});
                             }
                             if (results[0] === salida) {
-                                res.status(200);
-                                return res.json({'estado': true, mensaje: "El código subido es correcto"});
+                                EstudianteEjercicio.find({'idEstudiante': req.user.id}, function(err, estudianteej) {
+                                    if (estudianteej.length > 0) {
+                                        estudianteej[0].idEjercicios.push(idE);
+                                        estudianteej[0].save(function(err) {
+                                            if(err)
+                                                console.log("Error al guardar el ejercicio resuelto por el estudiante " + err)
+                                        });
+                                    } else {
+                                        var estudianteE = new EstudianteEjercicio();
+                                        estudianteE.idEstudiante = req.user._id;
+                                        estudianteE.idEjercicios.push(idE);
+                                        estudianteE.save(function(err) {
+                                            if(err)
+                                                console.log("Error al guardar el ejercicio resuelto por el estudiante " + err)
+                                        });
+                                    }
+                                    res.status(200);
+                                    return res.json({'estado': true, mensaje: "El código subido es correcto"});
+                                });
                             } else {
                                 res.status(200);
                                 return res.json({'estado': false, mensaje: "El código subido es incorrecto, no coincide con la respuesta"});
@@ -289,7 +311,7 @@ router.post('/resolver', function(req, res, next) {
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
 });
 

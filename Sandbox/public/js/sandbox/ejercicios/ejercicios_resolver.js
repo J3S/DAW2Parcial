@@ -1,6 +1,7 @@
 $(function() {
     var entrada = [];
     var salida = "";
+    var idEjercicio = "";
     $('#obtener-ejercicio').click(function (event) {
         event.preventDefault();
         var dificultad_env = $("#dificultad :selected").text();
@@ -13,26 +14,35 @@ $(function() {
                 etiqueta: etiqueta_env
             }, success: function(data) {
                 var datajson = JSON.parse(data);
-                $("#titulo-ejercicio").text("Título: " + datajson.contenidoMSG.titulo);
-                $("#dificultad-ejercicio").text("Dificultad: " + datajson.contenidoMSG.dificultad.nombre);
-                var etiquetasStr = "";
-                var etiquetasArray = datajson.contenidoMSG.etiquetas;
-                for(var index in etiquetasArray) { 
-                    if(index == 0) etiquetasStr = etiquetasStr + etiquetasArray[index].valor;
-                    else etiquetasStr = etiquetasStr + ", " + etiquetasArray[index].valor;
-                }
+                if (!datajson.estadoError) {
+                    $("#titulo-ejercicio").text("Título: " + datajson.contenidoMSG.titulo);
+                    $("#dificultad-ejercicio").text("Dificultad: " + datajson.contenidoMSG.dificultad.nombre);
+                    var etiquetasStr = "";
+                    var etiquetasArray = datajson.contenidoMSG.etiquetas;
+                    for(var index in etiquetasArray) { 
+                        if(index == 0) etiquetasStr = etiquetasStr + etiquetasArray[index].valor;
+                        else etiquetasStr = etiquetasStr + ", " + etiquetasArray[index].valor;
+                    }
 
-                entrada = [];
-                var entradasArray = datajson.contenidoMSG.datosEntrada;
-                for(var index in entradasArray) { 
-                    entrada.push(entradasArray[index].valor);
-                }
+                    entrada = [];
+                    var entradasArray = datajson.contenidoMSG.datosEntrada;
+                    for(var index in entradasArray) { 
+                        entrada.push(entradasArray[index].valor);
+                    }
 
-                salida = "";
-                salida = salida + datajson.contenidoMSG.datosSalida;
-                $("#etiquetas-ejercicio").text("Etiquetas: " + etiquetasStr);
-                $("#descripcion-ejercicio").text("Descripción: " + datajson.contenidoMSG.descripcion);
-                $("#upload").removeClass("hidden");
+                    salida = "";
+                    salida = salida + datajson.contenidoMSG.datosSalida;
+                    idEjercicio = datajson.contenidoMSG._id;
+                    $("#etiquetas-ejercicio").text("Etiquetas: " + etiquetasStr);
+                    $("#descripcion-ejercicio").text("Descripción: " + datajson.contenidoMSG.descripcion);
+                    $("#upload").removeClass("hidden");
+                } else {
+                    $('#titulo-ejercicio').text(datajson.contenidoMSG);
+                    $('#dificultad-ejercicio').text("");
+                    $('#etiquetas-ejercicio').text("");
+                    $('#descripcion-ejercicio').text("");
+                    $('#upload').addClass('hidden');
+                }
             }
         });
     });
@@ -42,6 +52,7 @@ $(function() {
         var formData = new FormData(document.getElementById("form-archivo"));
         formData.append("entradas", entrada);
         formData.append("salida", salida);
+        formData.append("idEj", idEjercicio);
         $.ajax({
             url: "/ejercicios/resolver",
             type: "POST",

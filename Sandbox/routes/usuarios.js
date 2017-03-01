@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
 });
 
@@ -27,7 +27,7 @@ router.get('/crear_user', function(req, res, next) {
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
 });
 
@@ -88,7 +88,7 @@ router.post('/crear_user', function(req, res, next) {
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
  });
 
@@ -108,7 +108,7 @@ router.get('/:_id', function(req, res, next){
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
 });
 
@@ -127,7 +127,7 @@ router.get('/editar/:_id', function(req, res, next){
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
 });
 
@@ -154,7 +154,7 @@ router.post('/editar/:_id', function(req, res, next) {
       return res.render('nopermitido');
     }
   } else {
-    return res.render('nopermitido');
+    return res.redirect('/index');
   }
 });
 
