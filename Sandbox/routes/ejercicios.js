@@ -219,12 +219,40 @@ router.get('/resolver', function(req, res, next) {
 router.get('/ejercicio_random', function(req, res, next) {
     var dificultad = req.query.dificultad;
     var etiqueta = req.query.etiqueta;
+    var indexResueltos = [];
     Ejercicio.find({"dificultad.nombre": dificultad, "etiquetas.valor": etiqueta}, function(err, ejercicios) {
+        console.log("Numero ejercicios: " + ejercicios.length);
         var randomIndex = Math.floor(Math.random() * ((ejercicios.length-1) - 0 + 1)) + 0;
         if(err)
             return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al buscar ejercicios - Problemas con la base de datos" }));
         if(ejercicios.length > 0) {
-            return res.send(JSON.stringify({ estadoError: false, contenidoMSG: ejercicios[randomIndex]}));
+            EstudianteEjercicio.find({'idEstudiante': req.user.id}, function(err, estudianteEj) {
+                if (estudianteEj.length > 0) {
+                    var estaResuelto = false;
+                    while (!estaResuelto) {
+                        console.log("Numero resueltos: " + indexResueltos.length);
+                        console.log(indexResueltos);
+                        if (estudianteEj[0].idEjercicios.includes(String(ejercicios[randomIndex]._id))) {
+                            if (!indexResueltos.includes(randomIndex))
+                                indexResueltos.push(randomIndex);
+                            if (indexResueltos.length === ejercicios.length) {
+                                console.log("ENTRO EN EJERICIO NO DISPONIBLE");
+                                console.log(typeof indexResueltos[0]);
+                                console.log(typeof randomIndex);
+                                console.log(indexResueltos);
+                                console.log(indexResueltos.length);
+                                console.log(ejercicios.length);
+                                 return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "No hay ejercicios disponibles sin resolver"}));
+                            }
+                            randomIndex = Math.floor(Math.random() * ((ejercicios.length-1) - 0 + 1)) + 0;
+                        }
+                        else
+                            return res.send(JSON.stringify({ estadoError: false, contenidoMSG: ejercicios[randomIndex]}));
+                    }
+                } else 
+                    return res.send(JSON.stringify({ estadoError: false, contenidoMSG: ejercicios[randomIndex]}));
+            });
+
         } else {
             return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "No se ha encontrado ningún ejercicio que tenga estos dos campos"}));
         }
@@ -238,13 +266,16 @@ router.post('/resolver', function(req, res, next) {
     var argumentos = [];
     var salida = "";
     var idE = "";
+    var dificultadejercicio = "";
     form.on('field', function (field, value) {
         if(field === 'entradas')
             argumentos = value.split(',');
         else if (field === "salida")
             salida = salida + value;
-        else
+        else if(field === "idEj")
             idE = idE + value;
+        else
+            dificultadejercicio = value;
     });
     form.parse(req, function(err, fields, files) {
         // `file` is the name of the <input> field of type `file`
@@ -294,6 +325,31 @@ router.post('/resolver', function(req, res, next) {
                                                 console.log("Error al guardar el ejercicio resuelto por el estudiante " + err)
                                         });
                                     }
+                                    var puntosrecibidos = 0;
+                                    if (dificultadejercicio === 'Fácil') {
+                                        puntosrecibidos = 5;
+                                    } else if (dificultadejercicio === 'Intermedio') {
+                                        puntosrecibidos = 10;
+                                    } else {
+                                        puntosrecibidos = 15;
+                                    }
+                                    EstudiantePuntos.find({'idEstudiante': req.user.id}, function(err, estudiantept) {
+                                        if(estudiantept.length >0) {
+                                            estudiantept [0].puntos = estudiantept [0].puntos + parseInt(puntosrecibidos);
+                                            estudiantept[0].save(function(err) {
+                                            if(err)
+                                                console.log("Error al guardar los puntos del ejercicio resuelto " + err)
+                                            });
+                                        } else {
+                                            var estudiantePt = new EstudiantePuntos();
+                                            estudiantePt.idEstudiante = req.user._id;
+                                            estudiantePt.puntos = parseInt(puntosrecibidos);
+                                            estudiantePt.save(function(err) {
+                                                if(err)
+                                                    console.log("Error al guardar los puntos del ejercicio resuelto " + err)
+                                            });
+                                        }
+                                    });
                                     res.status(200);
                                     return res.json({'estado': true, mensaje: "El código subido es correcto"});
                                 });

@@ -53,6 +53,7 @@ $(function() {
         formData.append("entradas", entrada);
         formData.append("salida", salida);
         formData.append("idEj", idEjercicio);
+        formData.append("dificultad", $("#dificultad :selected").text());
         $.ajax({
             url: "/ejercicios/resolver",
             type: "POST",
