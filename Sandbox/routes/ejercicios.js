@@ -221,7 +221,6 @@ router.get('/ejercicio_random', function(req, res, next) {
     var etiqueta = req.query.etiqueta;
     var indexResueltos = [];
     Ejercicio.find({"dificultad.nombre": dificultad, "etiquetas.valor": etiqueta}, function(err, ejercicios) {
-        console.log("Numero ejercicios: " + ejercicios.length);
         var randomIndex = Math.floor(Math.random() * ((ejercicios.length-1) - 0 + 1)) + 0;
         if(err)
             return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al buscar ejercicios - Problemas con la base de datos" }));
@@ -230,18 +229,10 @@ router.get('/ejercicio_random', function(req, res, next) {
                 if (estudianteEj.length > 0) {
                     var estaResuelto = false;
                     while (!estaResuelto) {
-                        console.log("Numero resueltos: " + indexResueltos.length);
-                        console.log(indexResueltos);
                         if (estudianteEj[0].idEjercicios.includes(String(ejercicios[randomIndex]._id))) {
                             if (!indexResueltos.includes(randomIndex))
                                 indexResueltos.push(randomIndex);
                             if (indexResueltos.length === ejercicios.length) {
-                                console.log("ENTRO EN EJERICIO NO DISPONIBLE");
-                                console.log(typeof indexResueltos[0]);
-                                console.log(typeof randomIndex);
-                                console.log(indexResueltos);
-                                console.log(indexResueltos.length);
-                                console.log(ejercicios.length);
                                  return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "No hay ejercicios disponibles sin resolver"}));
                             }
                             randomIndex = Math.floor(Math.random() * ((ejercicios.length-1) - 0 + 1)) + 0;
@@ -306,6 +297,7 @@ router.post('/resolver', function(req, res, next) {
                         PythonShell.run('/uploads' + ruta, options, function (err, results) {
                             if (err) {
                                 res.status(200);
+                                fs.unlink(new_path);
                                 return res.json({'estado': false, mensaje: "Hay errores en el código del archivo"});
                             }
                             if (results[0] === salida) {
@@ -351,10 +343,12 @@ router.post('/resolver', function(req, res, next) {
                                         }
                                     });
                                     res.status(200);
+                                    fs.unlink(new_path);
                                     return res.json({'estado': true, mensaje: "El código subido es correcto"});
                                 });
                             } else {
                                 res.status(200);
+                                fs.unlink(new_path);
                                 return res.json({'estado': false, mensaje: "El código subido es incorrecto, no coincide con la respuesta"});
                             }
                         });

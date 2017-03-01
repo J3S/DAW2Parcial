@@ -2,8 +2,8 @@ $(function() {
     var entrada = [];
     var salida = "";
     var idEjercicio = "";
-    $('#obtener-ejercicio').click(function (event) {
-        event.preventDefault();
+
+    function obtenerEjercicioRandom() {
         var dificultad_env = $("#dificultad :selected").text();
         var etiqueta_env= $("#etiquetas :selected").text();
         $.ajax({
@@ -45,6 +45,16 @@ $(function() {
                 }
             }
         });
+    }
+
+    $('#obtener-ejercicio').click(function (event) {
+        event.preventDefault();
+        obtenerEjercicioRandom();
+    });
+
+    $('#saltar-ejercicio').click(function(event) {
+        event.preventDefault();
+        obtenerEjercicioRandom();
     });
 
     $("#resolver-ejercicio").click(function(event) {
@@ -74,6 +84,11 @@ $(function() {
                     } else {
                         puntos = 15;
                     }
+                    $('#titulo-ejercicio').text("");
+                    $('#dificultad-ejercicio').text("");
+                    $('#etiquetas-ejercicio').text("");
+                    $('#descripcion-ejercicio').text("");
+                    $('#upload').addClass('hidden');
                     $("#alert").html('<div class="alert alert-success alert-dismissible fade in" role="alert" id="mensaje-operacion"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + datajson.mensaje + '<br /> Has ganado ' + puntos + ' puntos</div>');
                     $("#alert").show();
                 } else {
