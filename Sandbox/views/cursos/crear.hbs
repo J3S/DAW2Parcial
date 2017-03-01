@@ -164,7 +164,7 @@
               <div class="box-body">
                 <div class="form-group" id="profesor-group">
                   <label for="profesor">Profesor</label>
-                  <input type="text" class="form-control" name="profesor" placeholder="profesor del curso">
+                  <input type="text" class="form-control" name="profesor" id="profesor" placeholder="profesor del curso">
                   <p class="hidden text-danger" id="msg-titulo">Profesor vacío</p>
                 </div>
                 <div class="form-group" id="paralelo-group">
@@ -264,7 +264,12 @@
             url: "/cursos/crear/obtener",
             dataType: "json",
             success: function (data) {
+              
                 response($.map(data, function(v,i){
+                  
+                  console.log(v.rol);
+                  if (v.rol == "Estudiante" || v.rol == "estudiante"){
+                    
                     var text = v.nombres;
                     if ( text && ( !request.term || matcher.test(text) ) ) {
                         return {
@@ -272,11 +277,38 @@
                                 value: v.nombres + " " + v.apellidos
                                };
                     }
+                  }
                 }));
             }
         });
     }
-});
+  });
+  $("#profesor").autocomplete({
+    source: function (request, response) {
+        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+        $.ajax({
+            url: "/cursos/crear/obtener",
+            dataType: "json",
+            success: function (data) {
+              
+                response($.map(data, function(v,i){
+                  
+                  console.log(v.rol);
+                  if (v.rol == "Profesor" || v.rol == "profesor"){
+                    
+                    var text = v.nombres;
+                    if ( text && ( !request.term || matcher.test(text) ) ) {
+                        return {
+                                label: v.nombres + " " + v.apellidos,
+                                value: v.nombres + " " + v.apellidos
+                               };
+                    }
+                  }
+                }));
+            }
+        });
+    }
+  });
 </script>
 
 </body>
