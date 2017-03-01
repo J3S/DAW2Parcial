@@ -54,17 +54,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img class="user-image" alt="User Image" id="imagen-menu">
-              <span class="hidden-xs" id="nombre-menu">Alexander Pierce</span>
+              <span class="hidden-xs" id="nombre-menu">{{user.correo}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img class="img-circle" alt="User Image" id="imagen-popup-menu">
-
                 <p id="nombre-popup-menu">
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  {{user.nombres}} {{user.apellidos}} - {{user.rol}}
                 </p>
               </li>
               <!-- Menu Footer-->
@@ -92,19 +88,19 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img class="img-circle" alt="User Image" id="imagen-perfil">
+          <img class="img-circle" alt="User Image" id="imagen-perfil" src="../img/user.png">
         </div>
         <div class="pull-left info">
-          <p class="nombre" id="nombre-perfil">Alexander Pierce</p>
-          <a href="#" id="nivel-prog"><i class="fa fa-circle text-success"></i> Online</a>
+          <p class="nombre" id="nombre-perfil">{{user.nombres}} {{user.apellidos}}</p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">Opciones</li>
-        <li><a href="../"><i class="fa fa-tasks"></i> <span>Resumen</span></a></li>
         <li class="active"><a href="#"><i class="fa fa-book"></i> <span>Usuarios</span></a></li>
-        <li><a href="../cursos/"><i class="fa fa-folder"></i> <span>Cursos</span></a></li>
+        <li><a href="/ejercicios"><i class="fa fa-tasks"></i> <span>Ejercicios</span></a></li>
+        <li><a href="/cursos"><i class="fa fa-folder"></i> <span>Cursos</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->

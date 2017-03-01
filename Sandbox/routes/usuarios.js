@@ -8,8 +8,7 @@ router.get('/', function(req, res, next) {
   if(req.user){
     if(req.user.rol === 'Administrador'){
   	Usuarios.getUsuarios(function(e, users){
-  		console.log(users);
-		return res.render('usuarios/index', {usuarios: users});
+		return res.render('usuarios/index', {usuarios: users, user: req.user});
 	});
     } else {
       return res.render('nopermitido');
@@ -23,7 +22,7 @@ router.get('/', function(req, res, next) {
 router.get('/crear_user', function(req, res, next) {
   if(req.user){
     if(req.user.rol === 'Administrador'){
-	res.render('usuarios/crear_user');
+	return res.render('usuarios/crear_user', {user: req.user});
     } else {
       return res.render('nopermitido');
     }
@@ -121,8 +120,7 @@ router.get('/editar/:_id', function(req, res, next){
         if (err){
           throw err;
         }else{
-          console.log(user);
-          res.render('usuarios/editar', {usuarios: user});
+          res.render('usuarios/editar', {usuarios: user, usuario: req.user});
         }        
       });
     } else {
