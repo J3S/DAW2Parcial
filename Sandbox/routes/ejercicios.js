@@ -11,6 +11,7 @@ var passport = require('passport');
 var Ejercicio = require('../models/ejercicios');
 var Dificultad = require('../models/dificultads');
 var Etiqueta = require('../models/etiquetas');
+var Usuario = require('../models/usuario');
 
 const STATUS_ERROR = -1;
 const STATUS_SUCCESS = 0;
@@ -21,7 +22,15 @@ const STATUS_SUCCESS = 0;
         opción de crear un ejercicio. 
 */
 router.get('/', function(req, res, next) {
-    res.render('ejercicios/index');
+  if(req.user){
+    if(req.user.rol === 'Administrador' || req.user.rol === 'Profesor' || req.user.rol === 'Ayudante'){
+      return res.render('ejercicios/index', {user: req.user});
+     } else {
+      return res.render('nopermitido');
+    }
+  } else {
+    return res.render('nopermitido');
+  }
 });
 
 /* 
@@ -42,10 +51,10 @@ router.get('/todos', function(req, res, next) {
        Página para crear un ejercicio
 */
 router.get('/crear', function(req, res, next) {
+  if(req.user){
+    if(req.user.rol === 'Administrador' || req.user.rol === 'Profesor' || req.user.rol === 'Ayudante'){
     dificultades_enviar = [];
     etiquetas_enviar = [];
-    console.log("DATA SESSION")
-    console.log(req.user);
     Dificultad.find(function(err, dificultades) {
         if(!err)
             dificultades_enviar = dificultades;
@@ -60,33 +69,54 @@ router.get('/crear', function(req, res, next) {
             res.render('ejercicios/crear', data);
         });
     });
+     } else {
+      return res.render('nopermitido');
+    }
+  } else {
+    return res.render('nopermitido');
+  }
 });
 
 router.post('/crear', function(req, res, next) {
+  if(req.user){
+    if(req.user.rol === 'Administrador' || req.user.rol === 'Profesor' || req.user.rol === 'Ayudante'){
     Dificultad.findById(req.body.dificultad, function(err, dificultad) {
         if(err || typeof dificultad === undefined){
             return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al crear el ejercicio - La dificultad seleccionada no existe" }));
         }
         if (req.body.titulo === "" || req.body.descripcion === "" || req.body.salida === "" || JSON.parse(req.body.etiquetas).length === 0)
             return res.send(JSON.stringify({ estadoError: -1, contenidoMSG: "Error al crear el ejercicio - Uno o varios campos están vacíos" }));
+        Usuario.findById(req.body.autor, function(err, usuario) {
+            if(err || typeof usuario === undefined) {
+                return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al crear el ejercicio - El usuario no existe" }));
+            }
+            var ejercicio = new Ejercicio();
+            ejercicio.titulo = req.body.titulo;
+            ejercicio.descripcion = req.body.descripcion;
+            ejercicio.datosEntrada = JSON.parse(req.body.entradas);
+            ejercicio.datosSalida = req.body.salida;
+            ejercicio.etiquetas = JSON.parse(req.body.etiquetas);
+            ejercicio.dificultad = dificultad;
+            ejercicio.autor =usuario;
 
-        var ejercicio = new Ejercicio();
-        ejercicio.titulo = req.body.titulo;
-        ejercicio.descripcion = req.body.descripcion;
-        ejercicio.datosEntrada = JSON.parse(req.body.entradas);
-        ejercicio.datosSalida = req.body.salida;
-        ejercicio.etiquetas = JSON.parse(req.body.etiquetas);
-        ejercicio.dificultad = dificultad;
-
-        ejercicio.save(function(err) {
-            if(err)
-                return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al crear el ejercicio - Problemas con la base de datos"}));
-            return res.send(JSON.stringify({ estadoError: false, contenidoMSG: "Ejercicio creado exitosamente"}));
+            ejercicio.save(function(err) {
+                if(err)
+                    return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al crear el ejercicio - Problemas con la base de datos"}));
+                return res.send(JSON.stringify({ estadoError: false, contenidoMSG: "Ejercicio creado exitosamente"}));
+            });
         });
     });
+ } else {
+      return res.render('nopermitido');
+    }
+  } else {
+    return res.render('nopermitido');
+  }
 });
 
 router.get('/editar/:id', function(req, res, next) {
+  if(req.user){
+    if(req.user.rol === 'Administrador' || req.user.rol === 'Profesor' || req.user.rol === 'Ayudante'){
     Ejercicio.findById(req.params.id, function(err, ejercicio) {
         if(err)
             return res.render('ejercicios/editar', {estadoBusqueda: false, contenido: "", dificultades: "", etiquetas: ""});
@@ -96,13 +126,21 @@ router.get('/editar/:id', function(req, res, next) {
             Etiqueta.find(function(err, etiquetas_enviar) {
                 if(err)
                     return res.render('ejercicios/editar', {estadoBusqueda: false, contenido: "", dificultades: "", etiquetas: ""});
-                return res.render('ejercicios/editar', {estadoBusqueda: true, contenido: ejercicio, dificultades: dificultades_enviar, etiquetas: etiquetas_enviar});
+                return res.render('ejercicios/editar', {estadoBusqueda: true, contenido: ejercicio, dificultades: dificultades_enviar, etiquetas: etiquetas_enviar, user: req.user});
             });
         });
     });
+     } else {
+      return res.render('nopermitido');
+    }
+  } else {
+    return res.render('nopermitido');
+  }
 });
 
 router.put('/editar/:id', function(req, res, next) {
+  if(req.user){
+    if(req.user.rol === 'Administrador' || req.user.rol === 'Profesor' || req.user.rol === 'Ayudante'){
     Ejercicio.findById(req.params.id, function(err, ejercicio) {
         if(err)
             return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al editar el ejercicio - El ejercicio no existe" }));
@@ -123,9 +161,17 @@ router.put('/editar/:id', function(req, res, next) {
             });
         });
     });
+    } else {
+      return res.render('nopermitido');
+    }
+  } else {
+    return res.render('nopermitido');
+  }
 });
 
 router.delete('/borrar/:id', function(req, res, next) {
+  if(req.user){
+    if(req.user.rol === 'Administrador' || req.user.rol === 'Profesor' || req.user.rol === 'Ayudante'){
     Ejercicio.remove({
         _id: req.params.id
     }, function(err, ejercicio) {
@@ -133,9 +179,17 @@ router.delete('/borrar/:id', function(req, res, next) {
             return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al borrar el ejercicio - El ejercicio no existe" }));
         return res.send(JSON.stringify({ estadoError: false, contenidoMSG: "Ejercicio borrado exitosamente"}));
     });
+    } else {
+      return res.render('nopermitido');
+    }
+  } else {
+    return res.render('nopermitido');
+  }
 });
 
 router.get('/resolver', function(req, res, next) {
+  if(req.user){
+    if(req.user.rol === 'Estudiante'){
     dificultades_enviar = [];
     etiquetas_enviar = [];
     Dificultad.find(function(err, dificultades) {
@@ -146,11 +200,18 @@ router.get('/resolver', function(req, res, next) {
                 etiquetas_enviar = etiquetas;
             data = {
                 dificultades: dificultades_enviar,
-                etiquetas: etiquetas_enviar
+                etiquetas: etiquetas_enviar,
+                user: req.user
             };
             res.render('ejercicios/resolver', data);
         });
     });
+    } else {
+      return res.render('nopermitido');
+    }
+  } else {
+    return res.render('nopermitido');
+  }
 });
 
 router.get('/ejercicio_random', function(req, res, next) {
@@ -158,7 +219,6 @@ router.get('/ejercicio_random', function(req, res, next) {
     var etiqueta = req.query.etiqueta;
     Ejercicio.find({"dificultad.nombre": dificultad, "etiquetas.valor": etiqueta}, function(err, ejercicios) {
         var randomIndex = Math.floor(Math.random() * ((ejercicios.length-1) - 0 + 1)) + 0;
-        console.log(ejercicios[randomIndex]);
         if(err)
             return res.send(JSON.stringify({ estadoError: true, contenidoMSG: "Error al buscar ejercicios - Problemas con la base de datos" }));
         if(ejercicios.length > 0) {
@@ -170,6 +230,8 @@ router.get('/ejercicio_random', function(req, res, next) {
 });
 
 router.post('/resolver', function(req, res, next) {
+  if(req.user){
+    if(req.user.rol === 'Estudiante'){
     var form = new formidable.IncomingForm();
     var argumentos = [];
     var salida = "";
@@ -223,6 +285,12 @@ router.post('/resolver', function(req, res, next) {
             });
         });
     });
+    } else {
+      return res.render('nopermitido');
+    }
+  } else {
+    return res.render('nopermitido');
+  }
 });
 
 module.exports = router;

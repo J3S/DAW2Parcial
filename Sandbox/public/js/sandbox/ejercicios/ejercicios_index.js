@@ -7,7 +7,7 @@ $(document).ready(function() {
             var dificultad = value.dificultad.nombre;
             var idejercicio = value._id;
             var titulo = value.titulo;
-            var autor = value.autor;
+            var autor = value.autor.nombres + ' ' + value.autor.apellidos;
             var listadificultad = value.lista;
              var tr = $('<tr></tr>');
             var td1 = $('<td>' + titulo + '</td>'); 

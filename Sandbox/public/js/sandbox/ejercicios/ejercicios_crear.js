@@ -138,7 +138,6 @@ $(function() {
                 etiqueta["valor"] = $(object).val();
                 jsonEtiquetas.push(etiqueta);
             });
-
             var datos_enviados = {};
             datos_enviados.titulo = titulo;
             datos_enviados.descripcion = descripcion;
@@ -146,6 +145,7 @@ $(function() {
             datos_enviados.etiquetas = JSON.stringify(jsonEtiquetas);
             datos_enviados.salida = salida;
             datos_enviados.dificultad = dificultad;
+            datos_enviados.autor = $('#id-autor').val();
             $.ajax({
                 url:"/ejercicios/crear",
                 type: "POST",

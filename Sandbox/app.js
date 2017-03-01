@@ -61,6 +61,10 @@ app.use('/ejercicios', ejercicios);
 app.use('/cursos', cursos);
 app.use('/login', login);
 
+app.get('/', function (req, res) {
+  return res.redirect('/index');
+})
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
