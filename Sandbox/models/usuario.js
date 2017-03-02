@@ -11,6 +11,10 @@ var UsuarioSchema=new mongoose.Schema({
   password:String
 }, { versionKey: false, collection: 'usuario'});
 
+UsuarioSchema.statics.getUsuarioNombre = function(nombre, apellido, cb) {
+  return this.find({ 'nombres': {$in: nombre}, 'apellidos': {$in: apellido} }, cb);
+};
+
 var usuario = module.exports = mongoose.model("usuario",UsuarioSchema);
 
 module.exports.getUsuarios = function(callback, limit){
