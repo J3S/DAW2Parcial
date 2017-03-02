@@ -14,6 +14,7 @@ var users = require('./routes/usuarios');
 var ejercicios = require('./routes/ejercicios');
 var cursos = require('./routes/cursos');
 var login = require('./routes/login');
+var reportes = require('./routes/reportes');
 
 var app = express();
 
@@ -45,6 +46,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.use('/node_modules/slimscroll',  express.static(__dirname + '/node_modules/jquery-slimscroll'));
+app.use('/node_modules/chartjs',  express.static(__dirname + '/node_modules/chartjs'));
+app.use('/node_modules/knob',  express.static(__dirname + '/node_modules/jquery-knob'));
 
 
 // required for passport
@@ -60,6 +63,7 @@ app.use('/usuarios', users);
 app.use('/ejercicios', ejercicios);
 app.use('/cursos', cursos);
 app.use('/login', login);
+app.use('/reportes', reportes);
 
 app.get('/', function (req, res) {
   return res.redirect('/index');

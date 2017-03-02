@@ -14,6 +14,7 @@ var Etiqueta = require('../models/etiquetas');
 var Usuario = require('../models/usuario');
 var EstudianteEjercicio = require('../models/estudianteejercicio');
 var EstudiantePuntos = require('../models/estudiantepunto');
+var EjercicioResuelto = require('../models/ejerciciosresuelto');
 
 const STATUS_ERROR = -1;
 const STATUS_SUCCESS = 0;
@@ -189,7 +190,36 @@ router.delete('/borrar/:id', function(req, res, next) {
   }
 });
 
+function dateConvert(dateobj,format){
+  var year = dateobj.getFullYear();
+  var month= ("0" + (dateobj.getMonth()+1)).slice(-2);
+  var date = ("0" + dateobj.getDate()).slice(-2);
+  var hours = ("0" + dateobj.getHours()).slice(-2);
+  var minutes = ("0" + dateobj.getMinutes()).slice(-2);
+  var seconds = ("0" + dateobj.getSeconds()).slice(-2);
+  var day = dateobj.getDay();
+  var months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+  var dates = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+  var converted_date = "";
+
+  switch(format){
+    case "YYYY-MM-DD":
+      converted_date = year + "-" + month + "-" + date;
+      break;
+    case "YYYY-MMM-DD DDD":
+      converted_date = year + "-" + months[parseInt(month)-1] + "-" + date + " " + dates[parseInt(day)];
+      break;
+  }
+
+  return converted_date;
+}
+
+var date=new Date();
+var format = "YYYY-MM-DD";
+var strfecha;
+
 router.get('/resolver', function(req, res, next) {
+strfecha = dateConvert(date,format);
   if(req.user){
     if(req.user.rol === 'Estudiante'){
     dificultades_enviar = [];
@@ -339,6 +369,23 @@ router.post('/resolver', function(req, res, next) {
                                             estudiantePt.save(function(err) {
                                                 if(err)
                                                     console.log("Error al guardar los puntos del ejercicio resuelto " + err)
+                                            });
+                                        }
+                                    });
+                                    EjercicioResuelto.find({'fecha': strfecha}, function(err, ejercicioR) {
+                                        if (ejercicioR.length > 0) {
+                                            ejercicioR[0].numejercicio = ejercicioR[0].numejercicio + 1;
+                                            ejercicioR[0].save(function(err) {
+                                            if(err)
+                                                console.log("Error al guardar el ejercicio resuelto por fecha " + err)
+                                            });
+                                        } else {
+                                            var ejercicioRes = new EjercicioResuelto();
+                                            ejercicioRes.fecha = strfecha;
+                                            ejercicioRes.numejercicio = 1;
+                                            ejercicioRes.save(function(err) {
+                                                if(err)
+                                                    console.log("Error al guardar el ejercicio resuelto por fecha " + err)
                                             });
                                         }
                                     });
