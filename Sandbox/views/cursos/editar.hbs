@@ -164,19 +164,19 @@
               <div class="box-body">
                 <div class="form-group" id="profesor-group">
                   <label for="profesor">Profesor</label>
-                  <input type="text" class="form-control" name="profesor" value="{{cursos.profesor}}">
+                  <input type="text" class="form-control" name="profesor" value="{{cursos.profesor}}" maxlength="40">
                   <p class="hidden text-danger" id="msg-titulo">Profesor vacío</p>
                 </div>
                 <div class="form-group" id="paralelo-group">
                   <label for="paralelo">Paralelo</label>
-                  <input type="text" class="form-control" name="paralelo" value="{{cursos.paralelo}}">
+                  <input type="text" class="form-control" name="paralelo" value="{{cursos.paralelo}}" maxlength="3">
                   <p class="hidden text-danger" id="msg-descripcion">Paralelo vacío</p>
                 </div>
                 <div class="form-group" id="estudiantes-group">
                   <label for="estudiantes">Estudiantes</label>
                   <div class="row">
                     <div class="col-xs-5 col-md-5">
-                      <input type="text" class="form-control" name="estudiantes" id="estudiantes" placeholder="estudiantes del curso">
+                      <input type="text" class="form-control" name="estudiantes" id="estudiantes" placeholder="estudiantes del curso" maxlength="40">
                     </div>
                     <div class="col-xs-4 col-md-4">
                       <input type="button" id="agregarE" class="btn btn-primary" value="Agregar">
