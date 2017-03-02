@@ -6,12 +6,11 @@ from .models import materia
 def inicio(request):
 	titulo="Fundamentos de Programación" 
 
+	
+	queryset=materia.objects.all()
+
 	context={
-		"titulo":titulo,
+		"queryset":queryset,
 	}
-
-
-
-
 	return render(request, "inicio.html", context)
 

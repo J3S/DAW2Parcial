@@ -1,12 +1,88 @@
 {% extends "base.html"%}
-{{titulo}}<br/>
-<h1>Boo</h1>
 
-{% block jumbotron %}
-	<div class="jumbotron">
-        <h1>Navbar example</h1>
+
+{% block jumbotron_content%}
+
+<div class='row'>
+	<div class='col-sm-6'>
+
+        <h2>{%for instance in queryset%}
+	  {{instance.nombre}}	
+	  {%endfor%} </h2>
+        <p>{%for instance in queryset%}
+	  {{instance.codigo}}	
+	  {%endfor%} </p>
+	  <p>{%for instance in queryset%}
+	  {{instance.descripcion}}	
+	  {%endfor%} </p>
         
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p>
-      </div>
+ 	</div>
+ <div class='col-sm-6' style='background-color:black;height:300px;''></div>
+</div>
+
+{% endblock %}
+
+{% block allcontent %}  
+
+
+  <div class="panel panel-default col-sm-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Objetivos Especificos</div>
+      <div class="panel-body">
+      {%for instance in queryset%}
+	  {{instance.objetivosG}}	
+	  {%endfor%}</div>
+   </div>
+
+  </div>
+	<div class="panel panel-default col-sm-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Objetivos Generales</div>
+      <div class="panel-body">
+    	{%for instance in queryset%}
+		{{instance.objetivosE}}
+		{%endfor%} </div>
+    </div>
+ 	</div>
+ 	<div class="panel panel-default col-sm-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Escenarios</div>
+
+
+      <div class="panel-body">
+    	{%for instance in queryset%}
+		{{instance.escenarios}}
+		{%endfor%} </div>
+    </div>
+ 	</div>
+ 	<div class="panel panel-default col-sm-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Recursos</div>
+      <div class="panel-body">
+    	{%for instance in queryset%}
+		{{instance.recursos}}
+		{%endfor%} </div>
+    </div>
+ 	</div>
+
+
+<div class="panel panel-default col-sm-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Bibliografía</div>
+      <div class="panel-body">
+    	{%for instance in queryset%}
+		{{instance.bibliografia}}
+		{%endfor%} </div>
+    </div>
+ 	</div>
+ 	<div class="panel panel-default col-sm-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Políticas</div>
+      <div class="panel-body">
+    	{%for instance in queryset%}
+		{{instance.politicas}}
+		{%endfor%} </div>
+    </div>
+ 	</div>
+ 
 {% endblock %}

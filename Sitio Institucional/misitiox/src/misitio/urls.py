@@ -20,10 +20,20 @@ from django.contrib import admin
 
 from curso import views
 #from curso.views inicio
+#from cdictadas import views
+#from equipo import views
+#from noticias import views
+#from ayudantias import views
+
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.inicio, name='inicio'),
+    url(r'^$', views.inicio, name='inicio')
+  #  url(r'^clases/$', views.pclases, name='clases'),
+   # url(r'^ayudantias/$', views.payudantia, name='ayudantias'),
+    #url(r'^equipo/$', views.pequipo, name='equipo'),
+    #url(r'^noticias/$', views.pnoticias, name='noticias'),
 ]
 
 if settings.DEBUG:
