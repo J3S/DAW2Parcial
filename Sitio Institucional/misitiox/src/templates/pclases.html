@@ -1,1 +1,20 @@
 {% extends "base.html"%}
+
+{% block content%}
+
+{%for instance in queryset%}
+<div class='row'>
+  <div class='col-sm-6'>
+        <h3>{{instance.nombre}}</h3>
+        <p>Semana: {{instance.semana}}</p>
+        
+        
+  </div>
+
+  <div class='col-sm-6'>{{instance.link}}</div>
+</div>
+
+<br><br>
+
+{%endfor%} 
+{% endblock %}

@@ -5,5 +5,14 @@ from .models import Ayudantia
 
 # Create your views here.
 def payudantia(request):
-	return render(request, "payudantia.html", {})
+	queryset=Ayudantia.objects.all()
 
+	context={
+		"queryset":queryset,
+	}
+
+	return render(request, "payudantia.html", context)
+
+
+
+	

@@ -1,1 +1,21 @@
 {% extends "base.html"%}
+
+{% block allcontent%}
+
+{%for instance in queryset%}
+<div class='row'>
+	<div class='col-sm-6'>
+        <h3>{{instance.ayudante}}</h3>
+        <p>{{instance.aula}}</p>
+        <p>{{instance.edificio}}</p>        
+ 	</div>
+
+	<div class='col-sm-6'></div>
+	</div>
+
+<br><br>
+%endfor%} 
+
+{% endblock %}
+
+

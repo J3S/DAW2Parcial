@@ -1,1 +1,21 @@
 {% extends "base.html"%}
+
+{% block allcontent%}
+<h1> NOTICIAS</h1>
+{%for instance in queryset%}
+
+	<div class="panel panel-default col-sm-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">{{instance.nombre}}</div>
+      <div class="panel-body">
+    	<p>{{instance.descripcion}}</p>
+    	<p>{{instance.timestamp}}</p>
+		</div>
+    </div>
+ 	</div>
+
+<br><br>
+%endfor%} 
+
+{% endblock %}
+
