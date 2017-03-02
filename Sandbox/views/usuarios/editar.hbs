@@ -157,17 +157,17 @@
               <div class="box-body">
                 <div class="form-group" id="nombres-group">
                   <label for="nombres">Nombres</label>
-                  <input type="text" class="form-control" name="nombres" id="nombres" value="{{usuarios.nombres}}">
+                  <input type="text" class="form-control" name="nombres" id="nombres" value="{{usuarios.nombres}}" maxlength="40">
                   <p class="hidden text-danger" id="msg-nombres">Nombre vacío</p>
                 </div>
                 <div class="form-group" id="apellidos-group">
                   <label for="apellidos">Apellidos</label>
-                  <input type="text" class="form-control" name="apellidos" id="apellidos" value="{{usuarios.apellidos}}">
+                  <input type="text" class="form-control" name="apellidos" id="apellidos" value="{{usuarios.apellidos}}" maxlength="40">
                   <p class="hidden text-danger" id="msg-apellidos">Apellidos vacío</p>
                 </div>
                 <div class="form-group" id="correo-group">
                   <label for="correo">Correo</label>
-                  <input type="text" class="form-control" name="correo" id="correo" value="{{usuarios.correo}}" onblur="validar()">
+                  <input type="text" class="form-control" name="correo" id="correo" value="{{usuarios.correo}}" onblur="validar()" maxlength="25">
                   <p class="hidden text-danger" id="msg-correo">Correo vacío</p>
                 </div>
                 <div class="form-group" id="rol-group">
@@ -190,17 +190,17 @@
                 </div>
                 <div class="form-group" id="identificacion-group">
                   <label for="identificacion">Identificación</label>
-                  <input class="form-control" name="identificacion" id="identificacion" value="{{usuarios.identificacion}}">
+                  <input class="form-control" name="identificacion" id="identificacion" value="{{usuarios.identificacion}}" maxlength="10">
                   <p class="hidden text-danger" id="msg-identificacion">Identificacion vacía</p>
                 </div>
                 <div class="form-group" id="carrera-group">
                   <label for="carrera">Carrera</label>
-                  <input class="form-control" name="carrera" id="carrera" value="{{usuarios.carrera}}">
+                  <input class="form-control" name="carrera" id="carrera" value="{{usuarios.carrera}}" maxlength="30">
                   <p class="hidden text-danger" id="msg-carrera">Carrera vacía</p>
                 </div>
                 <div class="form-group" id="pass-group">
                   <label for="password">Password</label>
-                  <input class="form-control" name="password" id="pass" value="{{usuarios.password}}">
+                  <input class="form-control" name="password" id="pass" value="{{usuarios.password}}" maxlength="10">
                   <p class="hidden text-danger" id="msg-pass">password vacía</p>
                 </div>
                 <div class="box-footer text-center">
