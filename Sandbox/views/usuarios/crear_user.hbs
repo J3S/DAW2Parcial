@@ -162,12 +162,12 @@
                 </div>
                 <div class="form-group" id="apellidos-group">
                   <label for="apellidos">Apellidos</label>
-                  <input type="text" class="form-control" name="apellidos" id="apellidos" placeholder="apellidos del usuario">
+                  <input type="text" class="form-control" name="apellidos" id="apellidos" placeholder="apellidos del usuario" >
                   <p class="hidden text-danger" id="msg-apellidos">Apellidos vacío</p>
                 </div>
                 <div class="form-group" id="correo-group">
                   <label for="correo">Correo</label>
-                  <input type="text" class="form-control" name="correo" id="correo" placeholder="Correo del usuario">
+                  <input type="text" class="form-control" name="correo" id="correo" placeholder="Correo del usuario" onblur="validar()">
                   <p class="hidden text-danger" id="msg-correo">Correo vacío</p>
                   <p class="hidden text-danger" id="msg-correo-2">Correo no valido, ingreselo nuevamente</p>
                 </div>
