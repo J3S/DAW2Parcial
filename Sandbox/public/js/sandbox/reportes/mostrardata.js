@@ -9,6 +9,9 @@ $(document).ready(function() {
         lineData = data.linechart.data;
         dibujarLineChart(lineLabel, lineData);
     });
+    $.getJSON("/reportes/paralelos", function(data) {
+        console.log(data);
+    });
 })
 
 function dibujarLineChart(labelsL, dataL) {
