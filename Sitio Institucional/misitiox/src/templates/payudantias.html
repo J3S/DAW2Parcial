@@ -1,18 +1,21 @@
 {% extends "base.html"%}
+{% block jumbotron_content%}
+<h2 align="center"> AYUDANTIAS</h2>
+{% endblock %}
 
 {% block allcontent%}
 
 {%for instance in queryset%}
 <div class='row'>
-	<div class='col-sm-6'>
+	<div class='col-sm-12'>
         <h3>{{instance.ayudante}}</h3>
         <p>{{instance.aula}}</p>
         <p>{{instance.edificio}}</p>        
  	</div>
+ 	<div class='col-sm-12'></div>
+</div
 
-	<div class='col-sm-6'></div>
-
-<br><br>
+<br>
 {%endfor%} 
 
 {% endblock %}

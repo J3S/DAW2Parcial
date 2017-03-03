@@ -1,7 +1,7 @@
 {% extends "base.html"%}
 
 {% block jumbotron_content%}
-<h2 align="center"> PROFESORES</h2>
+<h2 align="center"> AYUDANTES ACADEMICOS</h2>
 {% endblock %}
 
 {% block allcontent%}
@@ -11,8 +11,6 @@
 	<div class='col-sm-6'>
         <h3>{{instance.nombre}}</h3>
         <p>{{instance.correo}}</p>
-        <p>{{instance.oficina}}</p>
-         <p>{{instance.paralelos}}</p>
         
  	</div>
 
@@ -23,6 +21,3 @@
 {%endfor%} 
 
 {% endblock %}
-
-
-
