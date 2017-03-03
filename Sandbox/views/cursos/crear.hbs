@@ -158,23 +158,24 @@
         <div class="col-xs-12">
           <div class="box box-primary">
             <!-- form start -->
-            <form role="form" id="form-crear" action="/cursos/crear" method="post">
+            <form id="form-crear">
               <div class="box-body">
                 <div class="form-group" id="profesor-group">
                   <label for="profesor">Profesor</label>
                   <input type="text" class="form-control" name="profesor" id="profesor" placeholder="profesor del curso" maxlength="40">
-                  <p class="hidden text-danger" id="msg-titulo">Profesor vacío</p>
+                  <p class="hidden text-danger" id="msg-profesor">Profesor vacío</p>
                 </div>
                 <div class="form-group" id="paralelo-group">
                   <label for="paralelo">Paralelo</label>
-                  <input type="text" class="form-control" name="paralelo" placeholder="numero de paralelo" maxlength="3">
-                  <p class="hidden text-danger" id="msg-descripcion">Paralelo vacío</p>
+                  <input type="text" class="form-control" name="paralelo" id="paralelo" placeholder="numero de paralelo" maxlength="3">
+                  <p class="hidden text-danger" id="msg-paralelo">Paralelo vacío</p>
                 </div>
                 <div class="form-group" id="estudiantes-group">
                   <label for="estudiantes">Estudiantes</label>
                   <div class="row">
                     <div class="col-xs-5 col-md-5">
                       <input type="text" class="form-control" name="estudiantes" id="estudiantes" placeholder="estudiantes del curso" maxlength="40">
+                      <p class="hidden text-danger" id="msg-estudiantes">Sin estudiantes, ingresar a la lista</p>
                     </div>
                     <div class="col-xs-4 col-md-4">
                       <input type="button" id="agregarE" class="btn btn-primary" value="Agregar">
@@ -189,7 +190,7 @@
                 </div>
                 <div class="box-footer text-center">
                   <a href="/cursos" class="btn btn-default">Cancelar</a>
-                  <button type="submit" data-toggle="modal" data-target="#myModal" class="btn btn-primary">Crear</button>
+                  <button type="submit" id="crearCurso" class="btn btn-primary">Crear</button>
                   
                 </div>
               </div>  
@@ -253,6 +254,7 @@
 <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
 <script type="text/javascript" language="javascript" src="/bower_components/Autocomplete/dist/autocomplete.js"></script>
 <script type="text/javascript" language="javascript" src="/js/sandbox/cursos/agregarEstudiantes.js"></script>
+<script type="text/javascript" language="javascript" src="/js/sandbox/cursos/cursos_crear.js"></script>
 
 <script type="text/javascript">
   if ("{{{user.rol}}}" !== "Administrador") {

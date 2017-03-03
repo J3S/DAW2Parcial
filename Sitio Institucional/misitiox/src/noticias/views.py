@@ -4,5 +4,14 @@ from django.shortcuts import render
 from .models import Noticia
 def pnoticias(request):
 	
-	return render(request, "pnoticias.html", {})
+	
 
+	queryset=Noticia.objects.all()
+
+	context={
+		"queryset":queryset,
+	}
+
+	return render(request, "pnoticias.html", context)
+
+	
