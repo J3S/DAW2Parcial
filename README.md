@@ -16,7 +16,6 @@ jose.gabriell.21@gmail.com
 Estudiantes:
 martin@test.com
 ana@test.com
-jose.gabriell.21@gmail.com
 silvestre@test.com
 jssuarez@espol.edu.ec
 ....
