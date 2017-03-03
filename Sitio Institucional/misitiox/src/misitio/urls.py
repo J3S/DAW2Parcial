@@ -29,7 +29,7 @@ from ayudantias.views import payudantias
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', inicio),
+    url(r'^inicio/', inicio),
     url(r'^pclases/', pclases),
     url(r'^payudantias/',payudantias),
     url(r'^pequipo/', pequipo),
