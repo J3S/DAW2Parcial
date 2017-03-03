@@ -15,6 +15,7 @@ var ejercicios = require('./routes/ejercicios');
 var cursos = require('./routes/cursos');
 var login = require('./routes/login');
 var reportes = require('./routes/reportes');
+var logout = require('./routes/logout');
 
 var app = express();
 
@@ -64,6 +65,7 @@ app.use('/ejercicios', ejercicios);
 app.use('/cursos', cursos);
 app.use('/login', login);
 app.use('/reportes', reportes);
+app.use('/logout', logout);
 
 app.get('/', function (req, res) {
   return res.redirect('/index');

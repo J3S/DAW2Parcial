@@ -74,6 +74,39 @@ router.get('/tiempo', function(req, res, next) {
         return res.redirect('/login');
 });
 
+var contador;
+var contador_final = 0;
+var num_ejercicios_resueltos_paralelo;
+var paralelo = [];
+var num_total_ejercicios = 0;
+
+function promiseObtenerEjerciciosParalelo(id_Estudiante, index_l, index_m, res, arreglo) {
+                      EstudianteEjercicio.getEstudianteEjercicio(id_Estudiante, function(err, estud) {
+                      if(estud.length > 0){
+                        num_total_ejercicios = num_total_ejercicios + estud[0].idEjercicios.length; 
+                        arreglo[index_l] = arreglo[index_l] + estud[0].idEjercicios.length;
+                        contador += 1;
+                      if (contador_final === contador) {
+                        var retorno = { estadoMostrar: true, knobChart: {data: arreglo, labels: paralelo, total: num_total_ejercicios}};
+                        return res.send(JSON.stringify(retorno));
+                      }
+                        return new Promise(function(fulfill, reject) {
+                          fulfill(estud[0].idEjercicios.length);
+                        });
+                      } else {
+                        contador += 1;
+                        arreglo[index_l] = arreglo[index_l] + 0;
+                      if (contador_final === contador) {
+                        var retorno = { estadoMostrar: true, knobChart: {data: arreglo, labels: paralelo, total: num_total_ejercicios}};
+                        return res.send(JSON.stringify(retorno));
+                      }
+                        return new Promise(function(fulfill, reject) {
+                          fulfill(0);
+                        });
+                      }
+                    });
+}
+
 router.get('/paralelos', function(req, res, next) {
   var numero_paralelos = 0;
   var num_estudiantes_paralelo = [];
@@ -84,12 +117,12 @@ router.get('/paralelos', function(req, res, next) {
   var nombres = [];
   var apellidos = [];   
   var datos = [];
-  var paralelo = [];
+  paralelo = [];
   Cursos.find(function(err, cursos) {
     if(cursos.length > 0) {
       numero_paralelos = cursos.length;
       for (var i = 0; i < cursos.length; i++) {
-        paralelo = cursos[i].paralelo;
+        paralelo[i] = cursos[i].paralelo;
         var estudiantes = cursos[i].estudiantes.split(',');
         num_estudiantes_paralelo.push(estudiantes.length);
         nombres = [];
@@ -117,31 +150,25 @@ router.get('/paralelos', function(req, res, next) {
                 idEstudiantesParalelo.push(idEstudiantes);
               }
               if(idEstudiantesParalelo.length == nombres_paralelo.length) {
-                for (var l = 0; l < idEstudiantesParalelo.length; l++) {
-                  for (var m = 0; m < idEstudiantesParalelo[l].length; m++) {
-                    console.log("IDDDDDDDDDDDDDDDDDDDD")
-                    console.log(idEstudiantesParalelo[l][m]);
-                    EstudianteEjercicio.getEstudianteEjercicio(idEstudiantesParalelo[l][m], function(err, estud) {
-                      console.log("ESTUDIANTEEEEEEEEEEEEEEEEEEE")
-                      console.log(estud);
-                      if(estud.length > 0)
-                        num_ejercicios_resueltos_paralelo[l] = estud[0].idEjercicios.length;
-                    });
+                var l;
+                var m;
+                var v1 = idEstudiantesParalelo.length-1; 
+                var v2 = idEstudiantesParalelo[v1].length-1;
+                contador_final = (v1+1) * (v2+1);
+                contador = 1;
+                num_total_ejercicios = 0;
+                num_ejercicios_resueltos_paralelo = new Array(idEstudiantesParalelo.length + 1).join('0').split('').map(parseFloat);
+                for (l = 0; l < idEstudiantesParalelo.length; l++) {
+                  for (m = 0; m < idEstudiantesParalelo[l].length; m++) {
+                    if(m == 0)
+                      num_ejercicios_resueltos_paralelo[l] = 0;
+                    contador = 0;
+                    var ne = promiseObtenerEjerciciosParalelo(idEstudiantesParalelo[l][m], l, m, res, num_ejercicios_resueltos_paralelo);
                   }
                 }
-              console.log("FINALLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
-              console.log(num_ejercicios_resueltos_paralelo);
               }
             });
         }
-
-
-
-
-
-
-
-        return res.send(JSON.stringify({ estadoMostrar: true, contenidoMSG: "No hay cursos registrados"}));
     } else {
       return res.send(JSON.stringify({ estadoMostrar: false, contenidoMSG: "No hay cursos registrados"}));
     }

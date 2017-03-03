@@ -4,6 +4,10 @@ $(document).ready(function() {
     var lineChart;
     var lineChartCanvas;
     var lineChartOptions;
+    var knobData;
+    var knobColors;
+    var knobLabels;
+
     $.getJSON("/reportes/tiempo?dias=7", function(data) {
         lineLabel = data.linechart.labels;
         lineData = data.linechart.data;
@@ -11,6 +15,15 @@ $(document).ready(function() {
     });
     $.getJSON("/reportes/paralelos", function(data) {
         console.log(data);
+        knobData = data.knobChart.data;
+        var total_ejercicios = data.knobChart.total;
+        var porcentajes = [];
+        for (var i = 0; i < knobData.length; i++) {
+            porcentajes[i] = Math.round(knobData[i] * 100 / total_ejercicios);
+        }
+        knobLabels = data.knobChart.labels;
+        dibujarKnobChart(porcentajes, "#f56954", knobLabels, knobData);
+        $(".dial").knob();
     });
 })
 
@@ -101,3 +114,19 @@ $('#btn-dias').click(function() {
     } else
     console.log(numero);
 });
+
+function dibujarKnobChart(values, color, labels, cantidad) {
+    for (var i = 0; i < values.length; i++) {
+        if (i < 3) {
+            var div = $('<div class="col-xs-6 col-md-4 text-center"></div>');
+        } else {
+            var div = $('<div class="col-xs-6 col-md-6 text-center"></div>');
+        }
+        var input = $('<input type="text" class="dial" data-readonly="true" value="' + values[i] + '" data-width="120" data-height="120" data-fgColor="' + color + '">');
+        var label = $('<div class="knob-label">Paralelo ' + labels[i] + ': ' + cantidad[i] + ' ejercicios resueltos</div>');
+        div.append(input);
+        div.append(label);
+        $("#nivel").append(div);
+    }
+    
+}
