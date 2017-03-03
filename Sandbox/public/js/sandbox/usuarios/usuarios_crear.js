@@ -3,11 +3,13 @@ $('#crearUsuario').click(function (event) {
         var nombres = $("#nombres").val();
         var apellidos = $("#apellidos").val();
         var correo = $("#correo").val();
+        var rol = $("#rol").val();
+        var tipoid = $("#tipoid").val();
         var identificacion = $("#identificacion").val();
         var carrera = $("#carrera").val();
-        var pass = $("#pass").val();
         var camposLlenos = 0;
-        var campoNombres, campoApellidos, campoCorreos, campoIdentificacion, campoCarrera, campoPass;
+        var campoNombres, campoApellidos, campoCorreos, campoIdentificacion, campoCarrera;
+        console.log(rol);
 
         if (nombres === "") {
             $("#msg-nombres").removeClass("hidden");
@@ -59,19 +61,21 @@ $('#crearUsuario').click(function (event) {
             campoCarrera = 1;
         }
 
-        if (pass === "") {
-            $("#msg-pass").removeClass("hidden");
-            $("#pass-group").addClass("has-error");
-            campoPass = 0;
-        } else {
-            $("#msg-pass").addClass("hidden");
-            $("#pass-group").removeClass("has-error");
-            campoPass = 1;
-        }
 
-        camposLlenos = campoNombres + campoApellidos + campoCorreo + campoIdentificacion + campoCarrera + campoPass;
+        camposLlenos = campoNombres + campoApellidos + campoCorreo + campoIdentificacion + campoCarrera;
         
-        if (camposLlenos === 6) {
+        if (camposLlenos === 5) {
+            $("#form-crear").attr("action","/usuarios/crear_user");
+            $("#form-crear").attr("method","post");
+            $("#crearUsuario").attr("data-toggle","modal");
             $("#crearUsuario").attr("data-target","#myModal");
+            var caracteres = "abcdefghijkmnpqrtuvwxyzABCDEFGHIJKLMNPQRTUVWXYZ2346789";
+            var contraseña = "";
+            for (i=0; i<5; i++) contraseña += caracteres.charAt(Math.floor(Math.random()*caracteres.length));
+            $("#pass").val(contraseña);
+            
+        } else {
+            event.preventDefault();
         }
 });
+

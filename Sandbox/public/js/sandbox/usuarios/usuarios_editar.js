@@ -5,7 +5,7 @@ $('#editarUsuario').click(function (event) {
         var correo = $("#correo").val();
         var identificacion = $("#identificacion").val();
         var carrera = $("#carrera").val();
-        var pass = $("#pass").val();
+        
         var camposLlenos = 0;
         var campoNombres, campoApellidos, campoCorreos, campoIdentificacion, campoCarrera, campoPass;
 
@@ -59,19 +59,17 @@ $('#editarUsuario').click(function (event) {
             campoCarrera = 1;
         }
 
-        if (pass === "") {
-            $("#msg-pass").removeClass("hidden");
-            $("#pass-group").addClass("has-error");
-            campoPass = 0;
-        } else {
-            $("#msg-pass").addClass("hidden");
-            $("#pass-group").removeClass("has-error");
-            campoPass = 1;
-        }
+        var id = $("#idedit").val();
 
-        camposLlenos = campoNombres + campoApellidos + campoCorreo + campoIdentificacion + campoCarrera + campoPass;
+        camposLlenos = campoNombres + campoApellidos + campoCorreo + campoIdentificacion + campoCarrera;
         
-        if (camposLlenos === 6) {
+        if (camposLlenos === 5) {
+            $("#form-editar").attr("action","/usuarios/editar/"+id);
+            $("#form-editar").attr("method","post");
+            $("#editarUsuario").attr("data-toggle","modal");
             $("#editarUsuario").attr("data-target","#myModal");
+            
+        } else {
+            event.preventDefault();
         }
 });
