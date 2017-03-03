@@ -1,13 +1,12 @@
 {% extends "base.html"%}
 
-{% block content%}
+{% block allcontent%}
 
 {%for instance in queryset%}
 <div class='row'>
   <div class='col-sm-6'>
         <h3>{{instance.nombre}}</h3>
-        <p>Semana: {{instance.semana}}</p>
-        
+        <p>Semana: {{instance.semana}}</p>       
         
   </div>
 

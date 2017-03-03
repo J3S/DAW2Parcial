@@ -1,7 +1,10 @@
 {% extends "base.html"%}
 
+{% block jumbotron_content%}
+<h2 align="center"> NOTICIAS</h2>
+{% endblock %}
 {% block allcontent%}
-<h1> NOTICIAS</h1>
+
 {%for instance in queryset%}
 
 	<div class="panel panel-default col-sm-12">
@@ -15,7 +18,7 @@
  	</div>
 
 <br><br>
-%endfor%} 
+{%endfor%} 
 
 {% endblock %}
 

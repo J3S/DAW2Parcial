@@ -8,7 +8,7 @@ from django.db import models
 class CDictada(models.Model):
 	nombre= models.CharField(max_length=100)
 	semana= models.CharField(max_length=100)
-	link= models.CharField(max_length=100, blank=True, null=True)
+	link= models.FileField()
 	def __unicode__(self):
 		return self.nombre
 

@@ -11,6 +11,13 @@ from .models import AyudanteAcademico
 
 # Create your views here.
 def pequipo(request):
-	
-	return render(request, "pequipo.html", {})
 
+	queryset=Profesor.objects.all()
+
+	context={
+		"queryset":queryset,
+	}
+	
+	return render(request, "pequipo.html", context)
+
+	
