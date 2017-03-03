@@ -5,7 +5,7 @@ $('#editarUsuario').click(function (event) {
         var correo = $("#correo").val();
         var identificacion = $("#identificacion").val();
         var carrera = $("#carrera").val();
-        var pass = $("#pass").val();
+        
         var camposLlenos = 0;
         var campoNombres, campoApellidos, campoCorreos, campoIdentificacion, campoCarrera, campoPass;
 
@@ -49,29 +49,60 @@ $('#editarUsuario').click(function (event) {
             campoIdentificacion = 1;
         }
 
-        if (carrera === "") {
-            $("#msg-carrera").removeClass("hidden");
-            $("#carrera-group").addClass("has-error");
-            campoCarrera = 0;
-        } else {
-            $("#msg-carrera").addClass("hidden");
-            $("#carrera-group").removeClass("has-error");
+        if(rol == "Profesor" || roll == "Administrador"){
             campoCarrera = 1;
-        }
-
-        if (pass === "") {
-            $("#msg-pass").removeClass("hidden");
-            $("#pass-group").addClass("has-error");
-            campoPass = 0;
         } else {
-            $("#msg-pass").addClass("hidden");
-            $("#pass-group").removeClass("has-error");
-            campoPass = 1;
+            if (carrera === "") {
+                $("#msg-carrera").removeClass("hidden");
+                $("#carrera-group").addClass("has-error");
+                campoCarrera = 0;
+            } else {
+                $("#msg-carrera").addClass("hidden");
+                $("#carrera-group").removeClass("has-error");
+                campoCarrera = 1;
+            }
         }
 
-        camposLlenos = campoNombres + campoApellidos + campoCorreo + campoIdentificacion + campoCarrera + campoPass;
+        var id = $("#idedit").val();
+
+        camposLlenos = campoNombres + campoApellidos + campoCorreo + campoIdentificacion + campoCarrera;
         
-        if (camposLlenos === 6) {
+        if (camposLlenos === 5) {
+            $("#form-editar").attr("action","/cursos/editar/"+id);
+            $("#form-editar").attr("method","post");
+            $("#editarUsuario").attr("data-toggle","modal");
             $("#editarUsuario").attr("data-target","#myModal");
+            
+        } else {
+            event.preventDefault();
         }
+});
+
+$(document).ready(function(){
+    
+    var s = $("#opcionrol").val();
+    if (s == "Profesor"){
+        $('#rol > option[value="Profesor"]').attr('selected', 'selected');
+        $("#carrera").prop('disabled', true);
+    } else {
+        if (s == "Administrador"){
+            $('#rol > option[value="Administrador"]').attr('selected', 'selected');
+            $("#carrera").prop('disabled', true);
+        }
+    }
+    
+
+    $("#rol").change(function(){
+    
+    var opcion = $("#rol").val();
+    
+    if (opcion == "Profesor" || opcion == "Administrador"){
+        $("#carrera").prop('disabled', true);
+    } else {
+        $("#carrera").prop('disabled', false);
+    }
+  });
+
+    
+
 });

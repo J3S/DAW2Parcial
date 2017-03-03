@@ -153,7 +153,8 @@
         <div class="col-xs-12">
           <div class="box box-primary">
             <!-- form start -->
-            <form role="form" id="form-crear" action="/usuarios/editar/{{usuarios.id}}" method="post">
+            <form id="form-editar">
+              <input type="text" class="hidden" id="idedit" value="{{usuarios.id}}">
               <div class="box-body">
                 <div class="form-group" id="nombres-group">
                   <label for="nombres">Nombres</label>
@@ -167,12 +168,13 @@
                 </div>
                 <div class="form-group" id="correo-group">
                   <label for="correo">Correo</label>
-                  <input type="text" class="form-control" name="correo" id="correo" value="{{usuarios.correo}}" onblur="validar()" maxlength="25">
+                  <input type="text" class="form-control" name="correo" id="correo" value="{{usuarios.correo}}" onblur="validar()" maxlength="40">
                   <p class="hidden text-danger" id="msg-correo">Correo vacío</p>
                 </div>
                 <div class="form-group" id="rol-group">
                   <label for="rol">Rol</label>
-                  <select class="form-control" name="rol">
+                  <input type="text" class="hidden" name="" id="opcionrol" value="{{usuarios.rol}}">
+                  <select class="form-control" name="rol" id = "rol">
                     <option value="Estudiante">Estudiante</option>
                     <option value="Profesor">Profesor</option>
                     <option value="Ayudante">Ayudante</option>
@@ -198,15 +200,11 @@
                   <input class="form-control" name="carrera" id="carrera" value="{{usuarios.carrera}}" maxlength="30">
                   <p class="hidden text-danger" id="msg-carrera">Carrera vacía</p>
                 </div>
-                <div class="form-group" id="pass-group">
-                  <label for="password">Password</label>
-                  <input class="form-control" name="password" id="pass" value="{{usuarios.password}}" maxlength="10">
-                  <p class="hidden text-danger" id="msg-pass">password vacía</p>
-                </div>
+                
                 <div class="box-footer text-center">
                   <a href="/usuarios" class="btn btn-default">Cancelar</a>
-                  <button type="submit" id="editarUsuario" data-toggle="modal" class="btn btn-primary">Actualizar</button>
-                  
+                  <button type="submit" id="editarUsuario" class="btn btn-primary">Actualizar</button>
+                  <input class="hidden" name="password" id="pass">
                 </div>
               </div>  
             </form>  
@@ -292,6 +290,10 @@
     $("#correo-group").addClass("has-error");
   }
   }
+
+  var s = $("#opcionrol").val();
+  $('#rol > option[value=s]').attr('selected', 'selected');
+
 </script>
 
 </body>
