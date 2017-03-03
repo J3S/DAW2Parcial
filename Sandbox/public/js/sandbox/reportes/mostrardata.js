@@ -14,7 +14,6 @@ $(document).ready(function() {
         dibujarLineChart(lineLabel, lineData);
     });
     $.getJSON("/reportes/paralelos", function(data) {
-        console.log(data);
         knobData = data.knobChart.data;
         var total_ejercicios = data.knobChart.total;
         var porcentajes = [];
