@@ -50,15 +50,18 @@ $('#crearUsuario').click(function (event) {
             $("#identificacion-group").removeClass("has-error");
             campoIdentificacion = 1;
         }
-
-        if (carrera === "") {
-            $("#msg-carrera").removeClass("hidden");
-            $("#carrera-group").addClass("has-error");
-            campoCarrera = 0;
-        } else {
-            $("#msg-carrera").addClass("hidden");
-            $("#carrera-group").removeClass("has-error");
+        if(rol == "Profesor" || roll == "Administrador"){
             campoCarrera = 1;
+        } else {
+            if (carrera === "") {
+                $("#msg-carrera").removeClass("hidden");
+                $("#carrera-group").addClass("has-error");
+                campoCarrera = 0;
+            } else {
+                $("#msg-carrera").addClass("hidden");
+                $("#carrera-group").removeClass("has-error");
+                campoCarrera = 1;
+            }
         }
 
 
@@ -77,5 +80,19 @@ $('#crearUsuario').click(function (event) {
         } else {
             event.preventDefault();
         }
+});
+
+$(document).ready(function(){
+    $("#rol").change(function(){
+    
+    var opcion = $("#rol").val();
+    
+    if (opcion == "Profesor" || opcion == "Administrador"){
+        $("#carrera").prop('disabled', true);
+    } else {
+        $("#carrera").prop('disabled', false);
+    }
+  });
+
 });
 

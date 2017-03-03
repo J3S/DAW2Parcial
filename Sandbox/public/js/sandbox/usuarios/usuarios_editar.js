@@ -49,14 +49,18 @@ $('#editarUsuario').click(function (event) {
             campoIdentificacion = 1;
         }
 
-        if (carrera === "") {
-            $("#msg-carrera").removeClass("hidden");
-            $("#carrera-group").addClass("has-error");
-            campoCarrera = 0;
-        } else {
-            $("#msg-carrera").addClass("hidden");
-            $("#carrera-group").removeClass("has-error");
+        if(rol == "Profesor" || roll == "Administrador"){
             campoCarrera = 1;
+        } else {
+            if (carrera === "") {
+                $("#msg-carrera").removeClass("hidden");
+                $("#carrera-group").addClass("has-error");
+                campoCarrera = 0;
+            } else {
+                $("#msg-carrera").addClass("hidden");
+                $("#carrera-group").removeClass("has-error");
+                campoCarrera = 1;
+            }
         }
 
         var id = $("#idedit").val();
@@ -72,4 +76,33 @@ $('#editarUsuario').click(function (event) {
         } else {
             event.preventDefault();
         }
+});
+
+$(document).ready(function(){
+    
+    var s = $("#opcionrol").val();
+    if (s == "Profesor"){
+        $('#rol > option[value="Profesor"]').attr('selected', 'selected');
+        $("#carrera").prop('disabled', true);
+    } else {
+        if (s == "Administrador"){
+            $('#rol > option[value="Administrador"]').attr('selected', 'selected');
+            $("#carrera").prop('disabled', true);
+        }
+    }
+    
+
+    $("#rol").change(function(){
+    
+    var opcion = $("#rol").val();
+    
+    if (opcion == "Profesor" || opcion == "Administrador"){
+        $("#carrera").prop('disabled', true);
+    } else {
+        $("#carrera").prop('disabled', false);
+    }
+  });
+
+    
+
 });

@@ -284,11 +284,20 @@
   }
   else
   {
-    console.log("noo vale");
+    //console.log("noo vale");
     $("#msg-correo-2").removeClass("hidden");
     $("#correo-group").addClass("has-error");
   }
   }
+
+  $("#rol").change = function(){
+    console.log("entraa");
+    var opcion = $("#rol").val();
+    console.log(opcion);
+    if (opcion == "Profesor"){
+        $("#carrera").prop('disabled', true);
+    }
+  };
 </script>
 
 </body>

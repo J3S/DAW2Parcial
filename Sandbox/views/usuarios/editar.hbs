@@ -173,7 +173,8 @@
                 </div>
                 <div class="form-group" id="rol-group">
                   <label for="rol">Rol</label>
-                  <select class="form-control" name="rol">
+                  <input type="text" class="hidden" name="" id="opcionrol" value="{{usuarios.rol}}">
+                  <select class="form-control" name="rol" id = "rol">
                     <option value="Estudiante">Estudiante</option>
                     <option value="Profesor">Profesor</option>
                     <option value="Ayudante">Ayudante</option>
@@ -289,6 +290,10 @@
     $("#correo-group").addClass("has-error");
   }
   }
+
+  var s = $("#opcionrol").val();
+  $('#rol > option[value=s]').attr('selected', 'selected');
+
 </script>
 
 </body>
