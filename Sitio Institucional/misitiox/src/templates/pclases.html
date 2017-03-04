@@ -1,4 +1,7 @@
 {% extends "base.html"%}
+{% block jumbotron_content%}
+<h2 align="center"> RECURSOS PARA CLASES</h2>
+{% endblock %}
 
 {% block allcontent%}
 
@@ -10,10 +13,10 @@
         
   </div>
 
-  <div class='col-sm-6'>{{instance.link}}</div>
+  <div class='col-sm-6'><iframe width="450" height="315" src="{{instance.link}}"frameborder="0" allowfullscreen></iframe></div>
 </div>
 
-<br><br>
+<hr>
 
 {%endfor%} 
 {% endblock %}

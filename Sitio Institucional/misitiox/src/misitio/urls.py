@@ -24,16 +24,25 @@ from cdictadas.views import pclases
 from equipo.views import pequipo
 from noticias.views import pnoticias
 from ayudantias.views import payudantias
-
+from ranking.views import pranking
+from equipo.views import pcoordinador
+from equipo.views import payudantesa
+from equipo.views import payudantesd
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', inicio),
+    url(r'^inicio/', inicio),
     url(r'^pclases/', pclases),
     url(r'^payudantias/',payudantias),
     url(r'^pequipo/', pequipo),
-    url(r'^pnoticias/',pnoticias)
+    url(r'^pnoticias/',pnoticias),
+    url(r'^pranking/',pranking),
+    url(r'^payudantesa/',payudantesa),
+    url(r'^payudantesd/',payudantesd),
+    url(r'^pcoordinador/',pcoordinador)
+    
+   
 ]
 
 if settings.DEBUG:

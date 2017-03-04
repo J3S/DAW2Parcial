@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'equipo',
     'noticias',
     'cdictadas',
+    'ranking',
     
 ]
 
